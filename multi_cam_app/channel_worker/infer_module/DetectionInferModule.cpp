@@ -229,8 +229,6 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
       pipeline::MakeElement("v4l2h264dec", pipeline::MakeElementName("v4l2h264dec", channel_id), &error);
   GstElement* v4l2h264dec_caps =
       pipeline::MakeElement("capsfilter", pipeline::MakeElementName("v4l2h264dec_caps", channel_id), &error);
-  GstElement* identity_pacer_unused =
-      pipeline::MakeElement("identity", pipeline::MakeElementName("identity_pacer", channel_id), &error);
   GstElement* timing_dec_out =
       CreateTimingMark(config, channel_id, "timing_dec_out",
                        perf::LatencyStage::kV4L2DecCapsSrc, &error);
@@ -336,7 +334,7 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
 
   // --- Null check all elements ---
   std::vector<GstElement*> all_elements = {
-      filesrc, qtdemux, h264parse, nullptr, v4l2h264dec, v4l2h264dec_caps,
+      filesrc, qtdemux, h264parse, v4l2h264dec, v4l2h264dec_caps,
       tee_decode, queue_decode, qtimlvconverter, qtimlqnn, qtimlpostprocess,
       queue_tracker, qtiobjtracker, queue_meta, text_capsfilter,
       metamux, queue_deduper, deduper, appsink_combined};
@@ -397,7 +395,7 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
 
   // --- Add elements to shared pipeline bin ---
   std::vector<GstElement*> base_elements = {
-      filesrc, qtdemux, h264parse, nullptr, v4l2h264dec, v4l2h264dec_caps,
+      filesrc, qtdemux, h264parse, v4l2h264dec, v4l2h264dec_caps,
       tee_decode, queue_decode, qtimlvconverter, qtimlqnn, qtimlpostprocess,
       queue_tracker, qtiobjtracker, queue_meta, text_capsfilter,
       metamux, queue_deduper, deduper, appsink_combined};
@@ -460,9 +458,6 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
   if (timing_parse_out != nullptr) {
     decode_chain.insert(decode_chain.begin() + 1, timing_parse_out);
   }
-  decode_chain.insert(
-      decode_chain.begin() + (timing_parse_out != nullptr ? 2 : 1),
-      nullptr);
   if (timing_dec_out != nullptr) {
     decode_chain.insert(decode_chain.end() - 1, timing_dec_out);
   }
@@ -470,7 +465,6 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
     if (out_error != nullptr) { *out_error = error; }
     return false;
   }
-  g_object_set(G_OBJECT(nullptr), "sync", TRUE, nullptr);
 
   // --- YOLO branch: queue_decode → ... → text_capsfilter ---
   std::vector<GstElement*> yolo_chain = {
