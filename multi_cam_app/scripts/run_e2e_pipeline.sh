@@ -29,6 +29,19 @@ sleep 1
 rm -f "$INIT_SOCK" "$RELAY_SOCK"
 mosquitto_pub -t 'iq9/scene_update' -n -r -h 127.0.0.1 2>/dev/null || true
 
+# ---- install custom GStreamer plugins ----
+echo "=== Installing plugins ==="
+GST_DIR=/usr/lib/aarch64-linux-gnu/gstreamer-1.0
+PLUGIN_DIR="$APP_DIR/build/plugins"
+for p in msgagg faceinfer frameoffload deduper timingmark; do
+  src="$PLUGIN_DIR/$p/libgstqti${p}.so"
+  if [[ -f "$src" ]]; then
+    sudo cp "$src" "$GST_DIR/"
+  fi
+done
+rm -f ~/.cache/gstreamer-1.0/registry.*.bin
+echo "Plugins installed, registry flushed"
+
 # ---- validate ----
 ok=1
 for f in "$PRODUCER" "$CONSUMER" "$RULE" "$PRODUCER_CONFIG" "$RULE_CONFIG"; do
@@ -55,9 +68,9 @@ CONSUMER_PID=$!
 echo "  PID=$CONSUMER_PID  log=$CONSUMER_LOG"
 sleep 2
 
-echo "=== Step 3/3: Rule Process (15s timeout) ==="
+echo "=== Step 3/3: Rule Process (60s timeout) ==="
 cd "$(dirname "$RULE")"
-timeout 15 "$RULE" "$RULE_CONFIG" > "$RULE_LOG" 2>&1 || true
+timeout 60 "$RULE" "$RULE_CONFIG" > "$RULE_LOG" 2>&1 || true
 echo "  Rule process finished"
 
 sleep 2
@@ -76,6 +89,9 @@ tail -5 "$PRODUCER_LOG"
 echo ""
 echo "--- Consumer ---"
 cat "$CONSUMER_LOG"
+echo ""
+echo "--- Rule Process (rule triggers) ---"
+grep -oP 'rule=[^ ]+' "$RULE_LOG" 2>/dev/null | sort | uniq -c | sort -rn || echo "(no rules triggered)"
 echo ""
 echo "--- Rule Process (WARN/ERROR/relay) ---"
 grep -E 'WARN|ERROR|relay sent' "$RULE_LOG" || echo "(clean — no warnings)"
