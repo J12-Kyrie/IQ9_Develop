@@ -1,0 +1,12 @@
+{
+    "scrfd_model": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/det_2.5g_qcs9075.bin",
+    "arcface_model": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/w600k_r50_qcs9075.bin",
+    "opencl_kernel_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/channel_worker/infer_module/face_infer/face_preprocess/kernels",
+
+    "qnn_backend": "/usr/lib/libQnnHtp.so",
+    "qnn_system": "/usr/lib/libQnnSystem.so",
+
+    "conf_threshold": 0.5,
+    "nms_threshold": 0.4,
+    "max_faces": 32
+}

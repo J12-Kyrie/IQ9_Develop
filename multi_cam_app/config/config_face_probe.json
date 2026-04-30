@@ -1,0 +1,46 @@
+{
+  "model_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/yolov11/yolov11_det.bin",
+  "videos_path": [
+    "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/media/camera_id_0.mp4",
+    "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/media/camera_id_1.mp4",
+    "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/media/camera_id_2.mp4"
+  ],
+  "labels_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/yolov11/labels.txt",
+  "output_dir": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/output",
+  "qnn_backend": "/usr/lib/libQnnHtp.so",
+  "qnn_system": "/usr/lib/libQnnSystem.so",
+  "qnn_backend_device_id": 0,
+  "qnn_tensors": [
+    "boxes",
+    "scores",
+    "class_idx"
+  ],
+  "qtimlvconverter_engine_order": [
+    "fcv",
+    "c2d"
+  ],
+  "qtiobjtracker_parameters": "params, frame-rate=(int)<30>, track-buffer=(int)<30>, wh-smooth-factor=(double)<0.9>, track-thresh=(double)<0.4>, high-thresh=(double)<0.45>",
+  "postprocess_module": "yolov8",
+  "confidence": 40.0,
+  "enable_face_pipeline": true,
+  "face_detection_model_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/face_det_lite-lightweight-face-detection-float.dlc",
+  "face_recognition_model_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/face_attrib_net-facial-attribute-detection-float.dlc",
+  "face_detection_labels_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/face_detection.json",
+  "face_recognition_labels_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/face_recognition.json",
+  "face_recognition_settings_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/face_recognition_settings.json",
+  "face_detection_confidence": 70.0,
+  "face_snpe_delegate": "dsp",
+  "face_snpe_performance_profile": "default",
+  "face_snpe_priority": "normal",
+  "face_detection_tensors": [],
+  "face_recognition_tensors": [],
+  "metamux_strict_timestamp_match": false,
+  "metamux_timestamp_threshold_ns": 1000000,
+  "metamux_reuse_last_meta": false,
+  "metamux_latency_ns": 1000,
+  "metamux_queue_size": 10,
+  "max_channels": 6,
+  "appsink_sync": false,
+  "appsink_drop": false,
+  "appsink_max_buffers": 8
+}

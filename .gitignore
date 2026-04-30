@@ -1,0 +1,67 @@
+# Build artifacts
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+Makefile
+*.o
+*.a
+*.so
+!*.cmake.in
+
+# Model files (large binaries)
+*.bin
+*.onnx
+*.tflite
+*.dlc
+*.qnn
+
+# Media / test video files
+*.mp4
+*.avi
+*.mov
+*.h264
+*.hevc
+*.mkv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Output artifacts
+*.jsonl
+output/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+
+# Sensitive config (keep templates)
+# config.json (uncomment if config contains secrets)
+
+# Device-specific cmake cache
+CMakeCache.txt
+
+# PPM image files (test output)
+*.ppm
+ppm_output/
+ppm_out/
+
+# Logs
+log/
+*.log
+
+# Build output binaries (keep source)
+build_local/

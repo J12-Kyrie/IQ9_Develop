@@ -1,0 +1,22 @@
+runtime: qnn_context_binary
+precision: float
+tool_versions:
+  qairt: 2.43.0.260127150333_193827
+model_files:
+  yolov11_det.bin:
+    inputs:
+      image:
+        shape: [1, 640, 640, 3]
+        dtype: float32
+    outputs:
+      boxes:
+        shape: [1, 8400, 4]
+        dtype: float32
+      scores:
+        shape: [1, 8400]
+        dtype: float32
+      class_idx:
+        shape: [1, 8400]
+        dtype: uint8
+supplementary_files:
+  labels.txt: Mapping of model prediction indices -> string labels.

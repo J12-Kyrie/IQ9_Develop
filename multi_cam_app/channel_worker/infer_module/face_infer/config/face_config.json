@@ -1,0 +1,12 @@
+{
+    "scrfd_model": "../../../../data/models/face/det_2.5g_qcs9075.bin",
+    "arcface_model": "../../../../data/models/face/w600k_r50_qcs9075.bin",
+    "opencl_kernel_path": "../face_preprocess/kernels",
+
+    "qnn_backend": "/usr/lib/libQnnHtp.so",
+    "qnn_system": "/usr/lib/libQnnSystem.so",
+
+    "conf_threshold": 0.5,
+    "nms_threshold": 0.4,
+    "max_faces": 32
+}

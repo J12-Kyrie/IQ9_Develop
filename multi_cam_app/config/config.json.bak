@@ -1,0 +1,33 @@
+{
+  "model_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/yolov11/yolov11_det.bin",
+  "videos_path": [
+    "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/media/camera_id_0.mp4"
+    
+  ],
+  "labels_path": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/yolov11/labels.txt",
+  "output_dir": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/output",
+
+  "qnn_backend": "/usr/lib/libQnnHtp.so",
+  "qnn_system": "/usr/lib/libQnnSystem.so",
+  "qnn_backend_device_id": 0,
+  "qnn_tensors": ["boxes", "scores", "class_idx"],
+  "qtimlvconverter_engine_order": ["fcv", "c2d"],
+  "qtiobjtracker_parameters": "params, frame-rate=(int)<30>, track-buffer=(int)<30>, wh-smooth-factor=(double)<0.9>, track-thresh=(double)<0.4>, high-thresh=(double)<0.45>",
+
+  "postprocess_module": "yolov8",
+  "confidence": 40.0,
+  "max_channels": 6,
+
+  "appsink_sync": false,
+  "appsink_drop": false,
+  "appsink_max_buffers": 8,
+
+  "face": {
+    "enable": true,
+    "scrfd_model": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/det_2.5g_qcs9075.bin",
+    "arcface_model": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/w600k_r50_qcs9075.bin",
+    "scrfd_labels": "/mnt/workspace/gst-plugins-qti-oss-imsdk.lnx.2.0.0.r2-rel/multi_cam_app/data/models/face/scrfd_labels.txt",
+    "scrfd_confidence": 50.0,
+    "scrfd_nms_threshold": 0.4
+  }
+}

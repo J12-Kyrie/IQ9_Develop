@@ -1,0 +1,17 @@
+{
+  "_comment": "Copy to yolo_qnn_latency_config.json and edit paths. Channel count = videos.length, max 6.",
+  "videos": [
+    "/data/videos/sample_ch0.mp4",
+    "/data/videos/sample_ch1.mp4"
+  ],
+  "output_dir": "/tmp/yolo_qnn_latency_out",
+  "model_path": "/data/models/yolov8_qcs9075.bin",
+  "qnn_backend": "/usr/lib/libQnnHtp.so",
+  "qnn_system": "/usr/lib/libQnnSystem.so",
+  "qnn_backend_device_id": 0,
+  "qnn_tensors": ["boxes", "scores", "class_idx"],
+  "qtimlvconverter_engine_order": ["fcv", "c2d"],
+  "sample_every_n": 1,
+  "flush_per_sample": true,
+  "max_channels": 6
+}
