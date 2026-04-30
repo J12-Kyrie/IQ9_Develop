@@ -229,8 +229,6 @@ bool DetectionInferModule::BuildChain(const config::AppConfig& config,
       pipeline::MakeElement("v4l2h264dec", pipeline::MakeElementName("v4l2h264dec", channel_id), &error);
   GstElement* v4l2h264dec_caps =
       pipeline::MakeElement("capsfilter", pipeline::MakeElementName("v4l2h264dec_caps", channel_id), &error);
-  GstElement* identity_pacer_unused =
-      pipeline::MakeElement("identity", pipeline::MakeElementName("identity_pacer", channel_id), &error);
   GstElement* timing_dec_out =
       CreateTimingMark(config, channel_id, "timing_dec_out",
                        perf::LatencyStage::kV4L2DecCapsSrc, &error);

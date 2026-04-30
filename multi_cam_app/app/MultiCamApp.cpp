@@ -209,6 +209,18 @@ bool MultiCamApp::Initialize(std::string* out_error) {
       gst_element_set_locked_state(msgpub, TRUE);
       gst_element_set_state(msgpub, GST_STATE_PLAYING);
 
+      // Faceinfer elements also block PAUSED→PLAYING. Lock and set PLAYING
+      // independently for each channel that has face enabled.
+      for (size_t i = 0; i < workers_.size(); ++i) {
+        std::string fi_name = "faceinfer_ch" + std::to_string(i);
+        GstElement* fi = gst_bin_get_by_name(GST_BIN(pipeline_), fi_name.c_str());
+        if (fi != nullptr) {
+          gst_element_set_locked_state(fi, TRUE);
+          gst_element_set_state(fi, GST_STATE_PLAYING);
+          gst_object_unref(fi);
+        }
+      }
+
       if (!gst_element_link(msgagg, msgpub)) {
         std::fprintf(stderr, "MsgAgg: failed to link qtimsgagg -> qtimsgpub\n");
         std::fflush(stderr);
@@ -354,12 +366,14 @@ void MultiCamApp::StopPipeline() {
   }
 
   if (pipeline_ != nullptr) {
-    // Unlock msgpub before pipeline teardown
-    GstElement* msgpub = gst_bin_get_by_name(GST_BIN(pipeline_), "msgpub");
-    if (msgpub != nullptr) {
-      gst_element_set_locked_state(msgpub, FALSE);
-      gst_element_set_state(msgpub, GST_STATE_NULL);
-      gst_object_unref(msgpub);
+    // Unlock msgpub and faceinfer before pipeline teardown
+    for (const char* name : {"msgpub", "faceinfer_ch0", "faceinfer_ch1", "faceinfer_ch2"}) {
+      GstElement* el = gst_bin_get_by_name(GST_BIN(pipeline_), name);
+      if (el != nullptr) {
+        gst_element_set_locked_state(el, FALSE);
+        gst_element_set_state(el, GST_STATE_NULL);
+        gst_object_unref(el);
+      }
     }
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
