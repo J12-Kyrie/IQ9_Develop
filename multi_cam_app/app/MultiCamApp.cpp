@@ -202,6 +202,13 @@ bool MultiCamApp::Initialize(std::string* out_error) {
           nullptr);
 
       gst_bin_add_many(GST_BIN(pipeline_), msgagg, msgpub, nullptr);
+
+      // msgpub (Qualcomm SDK plugin) blocks pipeline PAUSED→PLAYING transition.
+      // Lock its state so the pipeline state change skips it, then set PLAYING
+      // independently. This prevents msgpub from deadlocking the entire pipeline.
+      gst_element_set_locked_state(msgpub, TRUE);
+      gst_element_set_state(msgpub, GST_STATE_PLAYING);
+
       if (!gst_element_link(msgagg, msgpub)) {
         std::fprintf(stderr, "MsgAgg: failed to link qtimsgagg -> qtimsgpub\n");
         std::fflush(stderr);
@@ -347,6 +354,13 @@ void MultiCamApp::StopPipeline() {
   }
 
   if (pipeline_ != nullptr) {
+    // Unlock msgpub before pipeline teardown
+    GstElement* msgpub = gst_bin_get_by_name(GST_BIN(pipeline_), "msgpub");
+    if (msgpub != nullptr) {
+      gst_element_set_locked_state(msgpub, FALSE);
+      gst_element_set_state(msgpub, GST_STATE_NULL);
+      gst_object_unref(msgpub);
+    }
     gst_element_set_state(pipeline_, GST_STATE_NULL);
     gst_object_unref(pipeline_);
     pipeline_ = nullptr;
@@ -365,7 +379,20 @@ gboolean MultiCamApp::OnBusMessage(GstBus* /*bus*/, GstMessage* message, gpointe
   }
 
   switch (GST_MESSAGE_TYPE(message)) {
+    case GST_MESSAGE_STATE_CHANGED: {
+      if (GST_MESSAGE_SRC(message) == GST_OBJECT_CAST(self->pipeline_)) {
+        GstState old_state, new_state, pending;
+        gst_message_parse_state_changed(message, &old_state, &new_state, &pending);
+        if (new_state == GST_STATE_PLAYING) {
+          self->pipeline_entered_playing_ = true;
+        }
+      }
+      break;
+    }
     case GST_MESSAGE_EOS: {
+      if (!self->pipeline_entered_playing_) {
+        break;
+      }
       self->current_iteration_++;
       const uint32_t loop_count = self->config_.memtest_loop_count;
       const bool should_loop =

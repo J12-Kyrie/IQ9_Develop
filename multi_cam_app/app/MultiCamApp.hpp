@@ -61,6 +61,7 @@ private:
 
   // Memtest state
   uint32_t current_iteration_ {0U};
+  bool pipeline_entered_playing_ {false};
   guint mem_monitor_timer_id_ {0U};
   FILE* memtest_log_ {nullptr};
   uint64_t memtest_start_rss_kb_ {0ULL};
