@@ -1,0 +1,13 @@
+{
+    "vlm_server_url": "http://127.0.0.1:8000",
+    "model": "qwen3-vl-4b",
+    "prompt_template": "Analyze this camera frame from source {source}. Rule: {rule}. Detections: {dets}. Describe any safety-relevant events, objects, or activities visible.",
+    "jpeg_quality": 80,
+    "jpeg_target_width": 448,
+    "jpeg_target_height": 448,
+    "timeout_seconds": 30,
+    "worker_threads": 2,
+    "max_queue_size": 16,
+    "drop_policy": "drop-newest",
+    "jsonl_output": "/tmp/vlm_responses.jsonl"
+}

@@ -1,0 +1,12 @@
+Using libGenie.so version 1.13.0
+
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:38:dummy call to rpcmem_init, rpcmem APIs will be used from libxdsprpc
+[INFO]  "Using create From Binary"
+[INFO]  "Allocated total size = 192413696 across 5 buffers"
+Embedding file size: 8519680 bytes
+
+[BEGIN]: This image is a detailed, eye-level photograph of a bathroom, captured from a perspective that suggests the viewer is standing in the doorway, looking into the room. The room is a standard, clean, and well-maintained bathroom, likely in a residential home or apartment. The lighting is warm and even, suggesting an indoor, daytime setting, with a soft, ambient glow that highlights the room’s features.
+
+The room is dominated by a white, glossy, modern-style bathroom vanity and a matching white[END]
+
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:42:dummy call to rpcmem_deinit, rpcmem APIs will be used from libxdsprpc

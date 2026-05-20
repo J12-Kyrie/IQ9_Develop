@@ -1,0 +1,16 @@
+{
+  "graphs": [{
+    "O":3.0,
+    "vtcm_mb":8
+    }],
+    "devices": [{
+            "device_id": 1,
+            "core_type": 0,
+            "dsp_arch": "v73",
+            "soc_id":52,
+            "soc_model":52,    
+            "cores":[{
+        "perf_profile": "burst"
+      }]            
+    }]
+}

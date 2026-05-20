@@ -1,0 +1,5 @@
+export DEPLOY_DIR="$(cd "$(dirname "$0")" && pwd)"
+export LD_LIBRARY_PATH="$DEPLOY_DIR/lib:$LD_LIBRARY_PATH"
+export ADSP_LIBRARY_PATH="$DEPLOY_DIR/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1"
+export CDSP_LIBRARY_PATH="$DEPLOY_DIR/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1"
+echo "Qwen3-VL env loaded: DEPLOY_DIR=$DEPLOY_DIR"

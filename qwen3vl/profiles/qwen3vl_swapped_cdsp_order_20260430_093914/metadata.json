@@ -1,0 +1,91 @@
+{
+  "created_timestamp": "20260430_093914",
+  "device_time_iso": "2026-04-30T09:39:14.472558+00:00",
+  "device_epoch_time": 1777541954.472558,
+  "timezone": "UTC",
+  "python": "3.13.12 | packaged by conda-forge | (main, Feb  5 2026, 05:43:35) [GCC 14.3.0]",
+  "python_executable": "/home/ubuntu/miniforge3/bin/python",
+  "platform": "Linux-6.8.0-1071-qcom-aarch64-with-glibc2.39",
+  "uname": "Linux ubuntu 6.8.0-1071-qcom #74-Ubuntu SMP PREEMPT_DYNAMIC Wed Apr  1 09:48:42 UTC 2026 aarch64 aarch64",
+  "psutil_version": "7.2.2",
+  "deploy_root": "/mnt/workspace/develop/qwen3vl",
+  "commands": {
+    "genie_t2t_run_help": {
+      "cmd": [
+        "/mnt/workspace/develop/qwen3vl/bin/genie-t2t-run",
+        "--help"
+      ],
+      "returncode": 127,
+      "output": "/mnt/workspace/develop/qwen3vl/bin/genie-t2t-run: error while loading shared libraries: libGenie.so: cannot open shared object file: No such file or directory"
+    },
+    "qnn_net_run_version": {
+      "cmd": [
+        "qnn-net-run",
+        "--version"
+      ],
+      "returncode": null,
+      "error": "[Errno 2] No such file or directory: 'qnn-net-run'"
+    },
+    "qnn_profile_viewer_version": {
+      "cmd": [
+        "qnn-profile-viewer",
+        "--version"
+      ],
+      "returncode": null,
+      "error": "[Errno 2] No such file or directory: 'qnn-profile-viewer'"
+    },
+    "git_head": {
+      "cmd": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "output": "7d7d06325152a98463d511d87afc093f1a92e5eb"
+    },
+    "git_status": {
+      "cmd": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "returncode": 0,
+      "output": "M ../multi_cam_app/app/MultiCamApp.cpp\n M ../multi_cam_app/channel_worker/infer_module/DetectionInferModule.cpp\n?? ./"
+    },
+    "dev_fastrpc": {
+      "cmd": [
+        "sh",
+        "-c",
+        "ls -l /dev/fastrpc* 2>/dev/null"
+      ],
+      "returncode": 0,
+      "output": "crw-r----- 1 fastrpc fastrpc 10, 269 Mar 13 16:48 /dev/fastrpc-adsp-secure\ncrw-rw-r-- 1 fastrpc fastrpc 10, 268 Mar 13 16:48 /dev/fastrpc-cdsp\ncrw-r----- 1 fastrpc fastrpc 10, 267 Mar 13 16:48 /dev/fastrpc-cdsp-secure\ncrw-rw-r-- 1 fastrpc fastrpc 10, 266 Mar 13 16:48 /dev/fastrpc-cdsp1\ncrw-r----- 1 fastrpc fastrpc 10, 265 Mar 13 16:48 /dev/fastrpc-cdsp1-secure\ncrw-rw-r-- 1 fastrpc fastrpc 10, 264 Mar 13 16:48 /dev/fastrpc-gdsp0\ncrw-r----- 1 fastrpc fastrpc 10, 263 Mar 13 16:48 /dev/fastrpc-gdsp0-secure\ncrw-rw-r-- 1 fastrpc fastrpc 10, 271 Mar 13 16:48 /dev/fastrpc-gdsp1\ncrw-r----- 1 fastrpc fastrpc 10, 270 Mar 13 16:48 /dev/fastrpc-gdsp1-secure"
+    }
+  },
+  "case_name": "swapped_cdsp_order",
+  "indices": [
+    0,
+    7,
+    14,
+    19
+  ],
+  "repeats": 5,
+  "warmup_index": 14,
+  "sample_ms": 100,
+  "timeout_sec": 300,
+  "output_dir": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914",
+  "config_snapshot": {
+    "files": [
+      "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl.json",
+      "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/run_qwen3vl.sh",
+      "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/htp_backend_ext_config.json",
+      "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/htp_backend_ext_config_1.json"
+    ],
+    "missing": []
+  },
+  "case_config": {
+    "source_config": "/mnt/workspace/develop/qwen3vl/qwen3vl.json",
+    "runtime_config": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json",
+    "case_transform": "reversed extensions order"
+  }
+}

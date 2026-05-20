@@ -1,0 +1,1055 @@
+{
+  "warmup": {
+    "idx": 14,
+    "rep": null,
+    "status": "ok",
+    "returncode": 0,
+    "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/warmup_idx14.json",
+    "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/warmup_idx14.stdout.txt",
+    "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/warmup_idx14_process_samples.csv",
+    "peak_rss_bytes": 1022160896,
+    "peak_pss_bytes": 1022160896,
+    "sampled_process_names": [
+      "sg",
+      "sh",
+      "cdsprpcd",
+      "adsprpcd",
+      "timeout",
+      "genie-t2t-run"
+    ],
+    "command": [
+      "sg",
+      "fastrpc",
+      "-c",
+      "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/warmup_idx14.json"
+    ],
+    "error": "",
+    "init_time_ms": 2834.392,
+    "query_duration_ms": 5433.067,
+    "prompt_tokens": 1664,
+    "prompt_processing_rate": 1345.89501953125,
+    "ttft_ms": 1237.192,
+    "generated_tokens": 100,
+    "token_generation_time_ms": 4194.057,
+    "token_generation_rate": 23.843585968017578,
+    "ssd_acceptance_rate": 1.7999999523162842,
+    "regression_candidate": false
+  },
+  "runs": [
+    {
+      "idx": 0,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx0_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_0_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2791.483,
+      "query_duration_ms": 5241.499,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1344.0860595703125,
+      "ttft_ms": 1238.019,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4001.726,
+      "token_generation_rate": 24.9893798828125,
+      "ssd_acceptance_rate": 1.9038461446762085,
+      "regression_candidate": false
+    },
+    {
+      "idx": 0,
+      "rep": 1,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep1.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep1.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx0_rep1_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_0_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep1.json"
+      ],
+      "error": "",
+      "init_time_ms": 2784.782,
+      "query_duration_ms": 5235.287,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1237.276,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 3996.224,
+      "token_generation_rate": 25.023773193359375,
+      "ssd_acceptance_rate": 1.9038461446762085,
+      "regression_candidate": false
+    },
+    {
+      "idx": 0,
+      "rep": 2,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep2.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep2.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx0_rep2_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_0_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep2.json"
+      ],
+      "error": "",
+      "init_time_ms": 2779.515,
+      "query_duration_ms": 5237.965,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.484,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 3999.719,
+      "token_generation_rate": 25.001874923706055,
+      "ssd_acceptance_rate": 1.9038461446762085,
+      "regression_candidate": false
+    },
+    {
+      "idx": 0,
+      "rep": 3,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep3.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep3.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx0_rep3_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_0_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep3.json"
+      ],
+      "error": "",
+      "init_time_ms": 2794.33,
+      "query_duration_ms": 5216.641,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1237.491,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 3977.851,
+      "token_generation_rate": 25.139524459838867,
+      "ssd_acceptance_rate": 1.9038461446762085,
+      "regression_candidate": false
+    },
+    {
+      "idx": 0,
+      "rep": 4,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep4.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep4.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx0_rep4_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_0_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx0_rep4.json"
+      ],
+      "error": "",
+      "init_time_ms": 2769.65,
+      "query_duration_ms": 5229.959,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.633,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 3991.552,
+      "token_generation_rate": 25.053237915039062,
+      "ssd_acceptance_rate": 1.9038461446762085,
+      "regression_candidate": false
+    },
+    {
+      "idx": 7,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx7_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_7_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2797.788,
+      "query_duration_ms": 5317.566,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1237.125,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4078.859,
+      "token_generation_rate": 24.51701545715332,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 7,
+      "rep": 1,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep1.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep1.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx7_rep1_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_7_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep1.json"
+      ],
+      "error": "",
+      "init_time_ms": 2803.885,
+      "query_duration_ms": 5310.909,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1344.0860595703125,
+      "ttft_ms": 1239.305,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4069.809,
+      "token_generation_rate": 24.571231842041016,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 7,
+      "rep": 2,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep2.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep2.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx7_rep2_process_samples.csv",
+      "peak_rss_bytes": 1022164992,
+      "peak_pss_bytes": 1022164992,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_7_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep2.json"
+      ],
+      "error": "",
+      "init_time_ms": 2771.058,
+      "query_duration_ms": 5301.768,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.483,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4063.778,
+      "token_generation_rate": 24.608116149902344,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 7,
+      "rep": 3,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep3.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep3.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx7_rep3_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_7_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep3.json"
+      ],
+      "error": "",
+      "init_time_ms": 2825.261,
+      "query_duration_ms": 5313.594,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1236.097,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4076.232,
+      "token_generation_rate": 24.53265380859375,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 7,
+      "rep": 4,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep4.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep4.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx7_rep4_process_samples.csv",
+      "peak_rss_bytes": 1022160896,
+      "peak_pss_bytes": 1022160896,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_7_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx7_rep4.json"
+      ],
+      "error": "",
+      "init_time_ms": 2789.501,
+      "query_duration_ms": 5277.231,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.795,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4038.672,
+      "token_generation_rate": 24.76105499267578,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 14,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx14_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2816.682,
+      "query_duration_ms": 5460.477,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1236.118,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4222.967,
+      "token_generation_rate": 23.680408477783203,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    },
+    {
+      "idx": 14,
+      "rep": 1,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep1.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep1.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx14_rep1_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep1.json"
+      ],
+      "error": "",
+      "init_time_ms": 2779.902,
+      "query_duration_ms": 5449.417,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1235.412,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4212.541,
+      "token_generation_rate": 23.738872528076172,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    },
+    {
+      "idx": 14,
+      "rep": 2,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep2.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep2.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx14_rep2_process_samples.csv",
+      "peak_rss_bytes": 1022160896,
+      "peak_pss_bytes": 1022160896,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep2.json"
+      ],
+      "error": "",
+      "init_time_ms": 2786.462,
+      "query_duration_ms": 5433.0,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1235.728,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4195.377,
+      "token_generation_rate": 23.836196899414062,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    },
+    {
+      "idx": 14,
+      "rep": 3,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep3.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep3.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx14_rep3_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep3.json"
+      ],
+      "error": "",
+      "init_time_ms": 2807.653,
+      "query_duration_ms": 5422.022,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1235.24,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4184.897,
+      "token_generation_rate": 23.89600372314453,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    },
+    {
+      "idx": 14,
+      "rep": 4,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep4.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep4.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx14_rep4_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx14_rep4.json"
+      ],
+      "error": "",
+      "init_time_ms": 2793.386,
+      "query_duration_ms": 5456.518,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.813,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4218.358,
+      "token_generation_rate": 23.70623207092285,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    },
+    {
+      "idx": 19,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx19_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_19_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2762.297,
+      "query_duration_ms": 5284.404,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1338.6881103515625,
+      "ttft_ms": 1244.331,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4038.836,
+      "token_generation_rate": 24.759830474853516,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 19,
+      "rep": 1,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep1.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep1.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx19_rep1_process_samples.csv",
+      "peak_rss_bytes": 1022152704,
+      "peak_pss_bytes": 1022152704,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_19_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep1.json"
+      ],
+      "error": "",
+      "init_time_ms": 2776.03,
+      "query_duration_ms": 5279.567,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1237.096,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4040.681,
+      "token_generation_rate": 24.74880027770996,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 19,
+      "rep": 2,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep2.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep2.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx19_rep2_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_19_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep2.json"
+      ],
+      "error": "",
+      "init_time_ms": 2750.962,
+      "query_duration_ms": 5308.819,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1235.648,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4071.251,
+      "token_generation_rate": 24.562782287597656,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 19,
+      "rep": 3,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep3.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep3.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx19_rep3_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "cdsprpcd",
+        "adsprpcd",
+        "sh",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_19_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep3.json"
+      ],
+      "error": "",
+      "init_time_ms": 2826.305,
+      "query_duration_ms": 5294.415,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1347.7088623046875,
+      "ttft_ms": 1234.8,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4057.824,
+      "token_generation_rate": 24.643896102905273,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    },
+    {
+      "idx": 19,
+      "rep": 4,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep4.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep4.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/samples/run_idx19_rep4_process_samples.csv",
+      "peak_rss_bytes": 1022169088,
+      "peak_pss_bytes": 1022169088,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/config_snapshot/qwen3vl_profile_swapped_cdsp_order.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_19_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_swapped_cdsp_order_20260430_093914/runs/run_idx19_rep4.json"
+      ],
+      "error": "",
+      "init_time_ms": 2785.462,
+      "query_duration_ms": 5307.301,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1236.698,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4068.809,
+      "token_generation_rate": 24.5772705078125,
+      "ssd_acceptance_rate": 1.8679245710372925,
+      "regression_candidate": false
+    }
+  ],
+  "per_idx": {
+    "0": {
+      "init_time_ms": {
+        "mean": 2783.952,
+        "median": 2784.782,
+        "min": 2769.65,
+        "max": 2794.33,
+        "std": 9.865874492410695
+      },
+      "query_duration_ms": {
+        "mean": 5232.2702,
+        "median": 5235.287,
+        "min": 5216.641,
+        "max": 5241.499,
+        "std": 9.69943447836022
+      },
+      "prompt_processing_rate": {
+        "mean": 1345.5332275390624,
+        "median": 1345.89501953125,
+        "min": 1344.0860595703125,
+        "max": 1345.89501953125,
+        "std": 0.8089914882463228
+      },
+      "ttft_ms": {
+        "mean": 1237.1806000000001,
+        "median": 1237.276,
+        "min": 1236.484,
+        "max": 1238.019,
+        "std": 0.6311658260711043
+      },
+      "token_generation_time_ms": {
+        "mean": 3993.4144,
+        "median": 3996.224,
+        "min": 3977.851,
+        "max": 4001.726,
+        "std": 9.51856713481603
+      },
+      "token_generation_rate": {
+        "mean": 25.041558074951173,
+        "median": 25.023773193359375,
+        "min": 24.9893798828125,
+        "max": 25.139524459838867,
+        "std": 0.05989041967059505
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.9038461446762085,
+        "median": 1.9038461446762085,
+        "min": 1.9038461446762085,
+        "max": 1.9038461446762085,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022171545.6,
+        "median": 1022173184.0,
+        "min": 1022169088.0,
+        "max": 1022173184.0,
+        "std": 2243.4715955411602
+      },
+      "peak_pss_bytes": {
+        "mean": 1022171545.6,
+        "median": 1022173184.0,
+        "min": 1022169088.0,
+        "max": 1022173184.0,
+        "std": 2243.4715955411602
+      },
+      "regression_candidate": false
+    },
+    "7": {
+      "init_time_ms": {
+        "mean": 2797.4986,
+        "median": 2797.788,
+        "min": 2771.058,
+        "max": 2825.261,
+        "std": 19.841167085128827
+      },
+      "query_duration_ms": {
+        "mean": 5304.2136,
+        "median": 5310.909,
+        "min": 5277.231,
+        "max": 5317.566,
+        "std": 16.16437853120252
+      },
+      "prompt_processing_rate": {
+        "mean": 1345.89599609375,
+        "median": 1345.89501953125,
+        "min": 1344.0860595703125,
+        "max": 1347.7088623046875,
+        "std": 1.2808548882147874
+      },
+      "ttft_ms": {
+        "mean": 1237.161,
+        "median": 1236.795,
+        "min": 1236.097,
+        "max": 1239.305,
+        "std": 1.257355160644789
+      },
+      "token_generation_time_ms": {
+        "mean": 4065.47,
+        "median": 4069.809,
+        "min": 4038.672,
+        "max": 4078.859,
+        "std": 16.084997311159228
+      },
+      "token_generation_rate": {
+        "mean": 24.598014450073244,
+        "median": 24.571231842041016,
+        "min": 24.51701545715332,
+        "max": 24.76105499267578,
+        "std": 0.09776812015328384
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.8679245710372925,
+        "median": 1.8679245710372925,
+        "min": 1.8679245710372925,
+        "max": 1.8679245710372925,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022168268.8,
+        "median": 1022169088.0,
+        "min": 1022160896.0,
+        "max": 1022173184.0,
+        "std": 5340.53061034201
+      },
+      "peak_pss_bytes": {
+        "mean": 1022168268.8,
+        "median": 1022169088.0,
+        "min": 1022160896.0,
+        "max": 1022173184.0,
+        "std": 5340.53061034201
+      },
+      "regression_candidate": false
+    },
+    "14": {
+      "init_time_ms": {
+        "mean": 2796.817,
+        "median": 2793.386,
+        "min": 2779.902,
+        "max": 2816.682,
+        "std": 15.142259837950098
+      },
+      "query_duration_ms": {
+        "mean": 5444.2868,
+        "median": 5449.417,
+        "min": 5422.022,
+        "max": 5460.477,
+        "std": 16.28770206935284
+      },
+      "prompt_processing_rate": {
+        "mean": 1347.34609375,
+        "median": 1347.7088623046875,
+        "min": 1345.89501953125,
+        "max": 1347.7088623046875,
+        "std": 0.8111751483806
+      },
+      "ttft_ms": {
+        "mean": 1235.8622,
+        "median": 1235.728,
+        "min": 1235.24,
+        "max": 1236.813,
+        "std": 0.6279484055239136
+      },
+      "token_generation_time_ms": {
+        "mean": 4206.8279999999995,
+        "median": 4212.541,
+        "min": 4184.897,
+        "max": 4222.967,
+        "std": 16.11009584080731
+      },
+      "token_generation_rate": {
+        "mean": 23.771542739868163,
+        "median": 23.738872528076172,
+        "min": 23.680408477783203,
+        "max": 23.89600372314453,
+        "std": 0.0912537350565647
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.7999999523162842,
+        "median": 1.7999999523162842,
+        "min": 1.7999999523162842,
+        "max": 1.7999999523162842,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022167449.6,
+        "median": 1022169088.0,
+        "min": 1022160896.0,
+        "max": 1022169088.0,
+        "std": 3663.5737743356553
+      },
+      "peak_pss_bytes": {
+        "mean": 1022167449.6,
+        "median": 1022169088.0,
+        "min": 1022160896.0,
+        "max": 1022169088.0,
+        "std": 3663.5737743356553
+      },
+      "regression_candidate": false
+    },
+    "19": {
+      "init_time_ms": {
+        "mean": 2780.2112,
+        "median": 2776.03,
+        "min": 2750.962,
+        "max": 2826.305,
+        "std": 28.922854262676008
+      },
+      "query_duration_ms": {
+        "mean": 5294.9012,
+        "median": 5294.415,
+        "min": 5279.567,
+        "max": 5308.819,
+        "std": 13.162688600738182
+      },
+      "prompt_processing_rate": {
+        "mean": 1345.1791748046876,
+        "median": 1345.89501953125,
+        "min": 1338.6881103515625,
+        "max": 1347.7088623046875,
+        "std": 3.740234711051906
+      },
+      "ttft_ms": {
+        "mean": 1237.7146,
+        "median": 1236.698,
+        "min": 1234.8,
+        "max": 1244.331,
+        "std": 3.806527919246067
+      },
+      "token_generation_time_ms": {
+        "mean": 4055.4802000000004,
+        "median": 4057.824,
+        "min": 4038.836,
+        "max": 4071.251,
+        "std": 15.230841693747738
+      },
+      "token_generation_rate": {
+        "mean": 24.65851593017578,
+        "median": 24.643896102905273,
+        "min": 24.562782287597656,
+        "max": 24.759830474853516,
+        "std": 0.0927299691289348
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.8679245710372925,
+        "median": 1.8679245710372925,
+        "min": 1.8679245710372925,
+        "max": 1.8679245710372925,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022167449.6,
+        "median": 1022169088.0,
+        "min": 1022152704.0,
+        "max": 1022173184.0,
+        "std": 8493.646378323034
+      },
+      "peak_pss_bytes": {
+        "mean": 1022167449.6,
+        "median": 1022169088.0,
+        "min": 1022152704.0,
+        "max": 1022173184.0,
+        "std": 8493.646378323034
+      },
+      "regression_candidate": false
+    }
+  },
+  "overall": {
+    "run_count": 20,
+    "ok_count": 20,
+    "failed_count": 0,
+    "generation_rate": {
+      "mean": 24.51740779876709,
+      "median": 24.592693328857422,
+      "min": 23.680408477783203,
+      "max": 25.139524459838867,
+      "std": 0.48164039389335483
+    },
+    "ttft_ms": {
+      "mean": 1236.9796000000001,
+      "median": 1236.6655,
+      "min": 1234.8,
+      "max": 1244.331,
+      "std": 2.010023812375303
+    },
+    "prompt_processing_rate": {
+      "mean": 1345.988623046875,
+      "median": 1345.89501953125,
+      "min": 1338.6881103515625,
+      "max": 1347.7088623046875,
+      "std": 2.0690597799779655
+    },
+    "peak_rss_bytes": 1022173184.0,
+    "peak_pss_bytes": 1022173184.0,
+    "regression_candidate": false
+  }
+}

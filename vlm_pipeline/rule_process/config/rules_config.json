@@ -1,0 +1,46 @@
+{
+  "alert_manager": {
+    "cooldown_seconds": 0,
+    "max_history_size": 10000,
+    "cleanup_threshold": 8000,
+    "cleanup_ratio": 0.5
+  },
+  "rules": [
+    {
+      "name": "DoorCollisionRule",
+      "priority": 0,
+      "target_sources": ["source_000"],
+      "target_classes": ["car", "person"],
+      "params": {
+        "iou_threshold": 0.005,
+        "use_danger_zone": 1,
+        "h_expand": 0.6,
+        "v_expand": 0.25
+      }
+    },
+    {
+      "name": "LeftItemRule",
+      "priority": 1,
+      "target_sources": ["source_001"],
+      "target_classes": ["bag", "suitcase", "handbag", "backpack"],
+      "params": {
+        "grace_period_sec": 0.1,
+        "item_owner_iou_threshold": 0.01,
+        "merge_handbag_backpack": 1,
+        "item_owner_h_expand": 0.1,
+        "item_owner_v_expand": 0
+      }
+    },
+    {
+      "name": "OpenTrunkFaceRule",
+      "priority": 2,
+      "target_sources": ["source_002"],
+      "target_classes": ["person"],
+      "params": {
+        "similarity_threshold": 0.8,
+        "embedding_size": 512,
+        "embedding_file": "/mnt/workspace/develop/vlm_pipeline/rule_process/config/face_embeddings.json"
+      }
+    }
+  ]
+}

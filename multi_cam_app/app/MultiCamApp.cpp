@@ -209,18 +209,6 @@ bool MultiCamApp::Initialize(std::string* out_error) {
       gst_element_set_locked_state(msgpub, TRUE);
       gst_element_set_state(msgpub, GST_STATE_PLAYING);
 
-      // Faceinfer elements also block PAUSED→PLAYING. Lock and set PLAYING
-      // independently for each channel that has face enabled.
-      for (size_t i = 0; i < workers_.size(); ++i) {
-        std::string fi_name = "faceinfer_ch" + std::to_string(i);
-        GstElement* fi = gst_bin_get_by_name(GST_BIN(pipeline_), fi_name.c_str());
-        if (fi != nullptr) {
-          gst_element_set_locked_state(fi, TRUE);
-          gst_element_set_state(fi, GST_STATE_PLAYING);
-          gst_object_unref(fi);
-        }
-      }
-
       if (!gst_element_link(msgagg, msgpub)) {
         std::fprintf(stderr, "MsgAgg: failed to link qtimsgagg -> qtimsgpub\n");
         std::fflush(stderr);

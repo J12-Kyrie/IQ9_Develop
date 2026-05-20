@@ -1,0 +1,12 @@
+Using libGenie.so version 1.13.0
+
+[INFO]  "Using create From Binary"
+[INFO]  "Allocated total size = 233832448 across 5 buffers"
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:38:dummy call to rpcmem_init, rpcmem APIs will be used from libxdsprpc
+Embedding file size: 8519680 bytes
+
+[BEGIN]: This is a vibrant, sunlit street scene in a bustling urban area, likely a popular tourist destination or a major shopping district, centered around a large, iconic neon sign. The image is taken from a street-level perspective, looking down a long, straight avenue lined with tall, slender palm trees. The sky is a clear, deep blue, indicating a bright, sunny day with no clouds in sight.
+
+The dominant feature in the image is the massive, multi-colored neon sign for “E G A[END]
+
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:42:dummy call to rpcmem_deinit, rpcmem APIs will be used from libxdsprpc

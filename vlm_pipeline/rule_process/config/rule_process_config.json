@@ -1,0 +1,12 @@
+{
+  "mqtt": {
+    "broker_ip": "127.0.0.1",
+    "port": 1883,
+    "scene_update_topic": "iq9/scene_update",
+    "frame_done_topic": "iq9/frame_done"
+  },
+  "relay_socket": "/tmp/iq9_rule_relay.sock",
+  "rules_config": "/mnt/workspace/develop/vlm_pipeline/rule_process/config/rules_config.json",
+  "log_scene_timing": false,
+  "scene_debug_jsonl": "/tmp/scene_payloads.jsonl"
+}

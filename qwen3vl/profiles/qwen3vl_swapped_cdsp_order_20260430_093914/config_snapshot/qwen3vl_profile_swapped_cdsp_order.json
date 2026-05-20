@@ -1,0 +1,95 @@
+{
+  "dialog": {
+    "version": 1,
+    "type": "ssd-q1",
+    "ssd-q1": {
+      "version": 1,
+      "ssd-version": 1,
+      "forecast-token-count": 4,
+      "forecast-prefix": 16,
+      "forecast-prefix-name": "./ssd_forecast_prefix",
+      "branches": [
+        3,
+        2
+      ],
+      "n-streams": 1,
+      "p-threshold": 0.0
+    },
+    "max-num-tokens": 100,
+    "embedding": {
+      "version": 1,
+      "type": "lut",
+      "lut-path": "models/embedding_int8_lut_ssd.bin",
+      "size": 2560,
+      "datatype": "ufixed8",
+      "quant-param": {
+        "scale": 0.0017348345136269927,
+        "offset": -114
+      }
+    },
+    "context": {
+      "version": 1,
+      "size": 2048,
+      "n-vocab": 151936,
+      "bos-token": 151644,
+      "eos-token": 151645,
+      "n-embd": 2560
+    },
+    "sampler": {
+      "version": 1,
+      "seed": 42,
+      "temp": 0.8,
+      "top-k": 1,
+      "top-p": 1.0,
+      "greedy": true
+    },
+    "tokenizer": {
+      "version": 1,
+      "path": "tokenizer.json"
+    },
+    "engine": {
+      "version": 1,
+      "n-threads": 3,
+      "backend": {
+        "version": 1,
+        "type": "QnnHtp",
+        "QnnHtp": {
+          "version": 1,
+          "spill-fill-bufsize": 0,
+          "use-mmap": true,
+          "mmap-budget": 0,
+          "poll": true,
+          "allow-async-init": false,
+          "cpu-mask": "0xe0",
+          "kv-dim": 128,
+          "enable-graph-switching": false
+        },
+        "extensions": [
+          "models/data/htp_backend_ext_config_1.json",
+          "models/data/htp_backend_ext_config.json"
+        ]
+      },
+      "model": {
+        "version": 1,
+        "type": "binary",
+        "binary": {
+          "version": 1,
+          "ctx-bins": [
+            [
+              "models/weight_sharing_model_ar128_ar32_cl2048_1_of_3_socid52_archv73.serialized.bin"
+            ],
+            [
+              "models/weight_sharing_model_ar128_ar32_cl2048_2_of_3_socid52_archv73.serialized.bin",
+              "models/weight_sharing_model_ar128_ar32_cl2048_3_of_3_socid52_archv73.serialized.bin"
+            ]
+          ]
+        },
+        "positional-encoding": {
+          "type": "rope",
+          "rope-dim": 64,
+          "rope-theta": 5000000
+        }
+      }
+    }
+  }
+}

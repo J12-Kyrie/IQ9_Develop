@@ -65,3 +65,4 @@ log/
 
 # Build output binaries (keep source)
 build_local/
+*.serialized

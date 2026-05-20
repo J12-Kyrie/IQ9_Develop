@@ -1,0 +1,138 @@
+{
+  "warmup": null,
+  "runs": [
+    {
+      "idx": 14,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_093130/runs/run_idx14_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_093130/runs/run_idx14_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_093130/samples/run_idx14_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/qwen3vl.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_093130/runs/run_idx14_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2630.22,
+      "query_duration_ms": 5480.887,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1345.89501953125,
+      "ttft_ms": 1238.015,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4241.136,
+      "token_generation_rate": 23.57878875732422,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    }
+  ],
+  "per_idx": {
+    "14": {
+      "init_time_ms": {
+        "mean": 2630.22,
+        "median": 2630.22,
+        "min": 2630.22,
+        "max": 2630.22,
+        "std": 0.0
+      },
+      "query_duration_ms": {
+        "mean": 5480.887,
+        "median": 5480.887,
+        "min": 5480.887,
+        "max": 5480.887,
+        "std": 0.0
+      },
+      "prompt_processing_rate": {
+        "mean": 1345.89501953125,
+        "median": 1345.89501953125,
+        "min": 1345.89501953125,
+        "max": 1345.89501953125,
+        "std": 0.0
+      },
+      "ttft_ms": {
+        "mean": 1238.015,
+        "median": 1238.015,
+        "min": 1238.015,
+        "max": 1238.015,
+        "std": 0.0
+      },
+      "token_generation_time_ms": {
+        "mean": 4241.136,
+        "median": 4241.136,
+        "min": 4241.136,
+        "max": 4241.136,
+        "std": 0.0
+      },
+      "token_generation_rate": {
+        "mean": 23.57878875732422,
+        "median": 23.57878875732422,
+        "min": 23.57878875732422,
+        "max": 23.57878875732422,
+        "std": 0.0
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.7999999523162842,
+        "median": 1.7999999523162842,
+        "min": 1.7999999523162842,
+        "max": 1.7999999523162842,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022173184.0,
+        "median": 1022173184.0,
+        "min": 1022173184.0,
+        "max": 1022173184.0,
+        "std": 0.0
+      },
+      "peak_pss_bytes": {
+        "mean": 1022173184.0,
+        "median": 1022173184.0,
+        "min": 1022173184.0,
+        "max": 1022173184.0,
+        "std": 0.0
+      },
+      "regression_candidate": false
+    }
+  },
+  "overall": {
+    "run_count": 1,
+    "ok_count": 1,
+    "failed_count": 0,
+    "generation_rate": {
+      "mean": 23.57878875732422,
+      "median": 23.57878875732422,
+      "min": 23.57878875732422,
+      "max": 23.57878875732422,
+      "std": 0.0
+    },
+    "ttft_ms": {
+      "mean": 1238.015,
+      "median": 1238.015,
+      "min": 1238.015,
+      "max": 1238.015,
+      "std": 0.0
+    },
+    "prompt_processing_rate": {
+      "mean": 1345.89501953125,
+      "median": 1345.89501953125,
+      "min": 1345.89501953125,
+      "max": 1345.89501953125,
+      "std": 0.0
+    },
+    "peak_rss_bytes": 1022173184.0,
+    "peak_pss_bytes": 1022173184.0,
+    "regression_candidate": false
+  }
+}

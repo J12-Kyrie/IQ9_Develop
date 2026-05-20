@@ -1,0 +1,138 @@
+{
+  "warmup": null,
+  "runs": [
+    {
+      "idx": 14,
+      "rep": 0,
+      "status": "ok",
+      "returncode": 0,
+      "profile_json": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_091129/runs/run_idx14_rep0.json",
+      "stdout": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_091129/runs/run_idx14_rep0.stdout.txt",
+      "samples_csv": "/mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_091129/samples/run_idx14_rep0_process_samples.csv",
+      "peak_rss_bytes": 1022173184,
+      "peak_pss_bytes": 1022173184,
+      "sampled_process_names": [
+        "sg",
+        "sh",
+        "cdsprpcd",
+        "adsprpcd",
+        "timeout",
+        "genie-t2t-run"
+      ],
+      "command": [
+        "sg",
+        "fastrpc",
+        "-c",
+        "export LD_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib; export ADSP_LIBRARY_PATH=/mnt/workspace/develop/qwen3vl/lib/dsp:/usr/lib/dsp/cdsp:/usr/lib/dsp/cdsp1; cd /mnt/workspace/develop/qwen3vl; timeout 300 ./bin/genie-t2t-run -c /mnt/workspace/develop/qwen3vl/qwen3vl.json -e /mnt/workspace/develop/qwen3vl/test_data_onboard_1664/inputs_embeds_14_uint16.bin,uint16,0.00037788687041029334,-36275 --log error --profile /mnt/workspace/develop/qwen3vl/profiles/qwen3vl_dual_cdsp_baseline_20260430_091129/runs/run_idx14_rep0.json"
+      ],
+      "error": "",
+      "init_time_ms": 2674.668,
+      "query_duration_ms": 5474.806,
+      "prompt_tokens": 1664,
+      "prompt_processing_rate": 1349.5277099609375,
+      "ttft_ms": 1234.623,
+      "generated_tokens": 100,
+      "token_generation_time_ms": 4238.441,
+      "token_generation_rate": 23.593809127807617,
+      "ssd_acceptance_rate": 1.7999999523162842,
+      "regression_candidate": false
+    }
+  ],
+  "per_idx": {
+    "14": {
+      "init_time_ms": {
+        "mean": 2674.668,
+        "median": 2674.668,
+        "min": 2674.668,
+        "max": 2674.668,
+        "std": 0.0
+      },
+      "query_duration_ms": {
+        "mean": 5474.806,
+        "median": 5474.806,
+        "min": 5474.806,
+        "max": 5474.806,
+        "std": 0.0
+      },
+      "prompt_processing_rate": {
+        "mean": 1349.5277099609375,
+        "median": 1349.5277099609375,
+        "min": 1349.5277099609375,
+        "max": 1349.5277099609375,
+        "std": 0.0
+      },
+      "ttft_ms": {
+        "mean": 1234.623,
+        "median": 1234.623,
+        "min": 1234.623,
+        "max": 1234.623,
+        "std": 0.0
+      },
+      "token_generation_time_ms": {
+        "mean": 4238.441,
+        "median": 4238.441,
+        "min": 4238.441,
+        "max": 4238.441,
+        "std": 0.0
+      },
+      "token_generation_rate": {
+        "mean": 23.593809127807617,
+        "median": 23.593809127807617,
+        "min": 23.593809127807617,
+        "max": 23.593809127807617,
+        "std": 0.0
+      },
+      "ssd_acceptance_rate": {
+        "mean": 1.7999999523162842,
+        "median": 1.7999999523162842,
+        "min": 1.7999999523162842,
+        "max": 1.7999999523162842,
+        "std": 0.0
+      },
+      "peak_rss_bytes": {
+        "mean": 1022173184.0,
+        "median": 1022173184.0,
+        "min": 1022173184.0,
+        "max": 1022173184.0,
+        "std": 0.0
+      },
+      "peak_pss_bytes": {
+        "mean": 1022173184.0,
+        "median": 1022173184.0,
+        "min": 1022173184.0,
+        "max": 1022173184.0,
+        "std": 0.0
+      },
+      "regression_candidate": false
+    }
+  },
+  "overall": {
+    "run_count": 1,
+    "ok_count": 1,
+    "failed_count": 0,
+    "generation_rate": {
+      "mean": 23.593809127807617,
+      "median": 23.593809127807617,
+      "min": 23.593809127807617,
+      "max": 23.593809127807617,
+      "std": 0.0
+    },
+    "ttft_ms": {
+      "mean": 1234.623,
+      "median": 1234.623,
+      "min": 1234.623,
+      "max": 1234.623,
+      "std": 0.0
+    },
+    "prompt_processing_rate": {
+      "mean": 1349.5277099609375,
+      "median": 1349.5277099609375,
+      "min": 1349.5277099609375,
+      "max": 1349.5277099609375,
+      "std": 0.0
+    },
+    "peak_rss_bytes": 1022173184.0,
+    "peak_pss_bytes": 1022173184.0,
+    "regression_candidate": false
+  }
+}

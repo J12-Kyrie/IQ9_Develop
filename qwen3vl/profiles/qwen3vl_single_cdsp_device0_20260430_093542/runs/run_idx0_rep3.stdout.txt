@@ -1,0 +1,10 @@
+Using libGenie.so version 1.13.0
+
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:38:dummy call to rpcmem_init, rpcmem APIs will be used from libxdsprpc
+[INFO]  "Using create From Binary"
+[INFO]  "Allocated total size = 192413696 across 5 buffers"
+Embedding file size: 8519680 bytes
+
+[BEGIN]: This image captures a dynamic, urban street scene from a low-angle, rear perspective, focusing on the back of a large white bus. The bus is parked on a street lined with parked cars, and the scene is framed by a bustling, everyday urban environment. The bus is adorned with a large, vibrant advertisement on its rear, featuring a red and white design with a stylized image of a man in a suit holding a glass of red wine. The ad includes the text “INCOMPARABLE[END]
+
+/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:42:dummy call to rpcmem_deinit, rpcmem APIs will be used from libxdsprpc
