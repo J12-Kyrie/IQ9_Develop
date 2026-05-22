@@ -27,9 +27,14 @@ namespace qwen_vl {
 OpenCLAccelerator::OpenCLAccelerator()
     : platform_(nullptr), device_(nullptr), context_(nullptr),
       queue_(nullptr), program_(nullptr),
-      normalize_kernel_(nullptr), transpose_kernel_(nullptr),
-      rotary_kernel_(nullptr), mask_kernel_(nullptr),
-      initialized_(false), config_(nullptr) {
+      resize_kernel_(nullptr), normalize_kernel_(nullptr),
+      transpose_kernel_(nullptr), rotary_kernel_(nullptr),
+      mask_kernel_(nullptr), fused_resize_norm_kernel_(nullptr),
+      fused_transpose_kernel_(nullptr), initialized_(false), config_(nullptr),
+      persistent_src_buf_(nullptr), persistent_norm_buf_(nullptr),
+      persistent_patches_buf_(nullptr), persistent_allocated_(false),
+      persistent_src_width_(0), persistent_src_height_(0), persistent_src_stride_(0),
+      persistent_dst_width_(0), persistent_dst_height_(0) {
 }
 
 void OpenCLAccelerator::setConfig(const QwenVLConfig* config) {
@@ -37,6 +42,10 @@ void OpenCLAccelerator::setConfig(const QwenVLConfig* config) {
 }
 
 OpenCLAccelerator::~OpenCLAccelerator() {
+    releasePersistentBuffers();
+    if (fused_resize_norm_kernel_) clReleaseKernel(fused_resize_norm_kernel_);
+    if (fused_transpose_kernel_) clReleaseKernel(fused_transpose_kernel_);
+    if (resize_kernel_) clReleaseKernel(resize_kernel_);
     if (normalize_kernel_) clReleaseKernel(normalize_kernel_);
     if (transpose_kernel_) clReleaseKernel(transpose_kernel_);
     if (rotary_kernel_) clReleaseKernel(rotary_kernel_);
@@ -182,6 +191,12 @@ bool OpenCLAccelerator::createProgram() {
     }
     
     // Create kernels
+    resize_kernel_ = clCreateKernel(program_, "resize_bilinear", &err);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to create resize kernel: " << getErrorString(err) << std::endl;
+        return false;
+    }
+
     normalize_kernel_ = clCreateKernel(program_, "normalize_image", &err);
     if (err != CL_SUCCESS) {
         std::cerr << "Failed to create normalize kernel: " << getErrorString(err) << std::endl;
@@ -205,16 +220,77 @@ bool OpenCLAccelerator::createProgram() {
         std::cerr << "Failed to create mask kernel: " << getErrorString(err) << std::endl;
         return false;
     }
-    
-    std::cout << "✅ All kernels created successfully" << std::endl;
+
+    fused_resize_norm_kernel_ = clCreateKernel(program_, "resize_bilinear_normalized", &err);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to create fused resize+normalize kernel: " << getErrorString(err) << std::endl;
+        return false;
+    }
+
+    fused_transpose_kernel_ = clCreateKernel(program_, "transpose_to_patch_from_uchar", &err);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to create fused transpose kernel: " << getErrorString(err) << std::endl;
+        return false;
+    }
+
+    std::cout << "✅ All kernels created successfully (including fused kernels)" << std::endl;
     return true;
+}
+
+void OpenCLAccelerator::resizeImage(
+    const uint8_t* src, uint8_t* dst,
+    int32_t src_width, int32_t src_height, int32_t src_stride,
+    int32_t dst_width, int32_t dst_height, int32_t channels) {
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    cl_int err;
+    size_t src_size = src_height * src_stride;
+    size_t dst_size = dst_height * dst_width * channels;
+
+    cl_mem src_buf = clCreateBuffer(context_, CL_MEM_READ_ONLY,
+        src_size * sizeof(uint8_t), nullptr, &err);
+    CHECK_ERROR(err, "Failed to create resize src buffer");
+
+    cl_mem dst_buf = clCreateBuffer(context_, CL_MEM_WRITE_ONLY,
+        dst_size * sizeof(uint8_t), nullptr, &err);
+    CHECK_ERROR(err, "Failed to create resize dst buffer");
+
+    err = clEnqueueWriteBuffer(queue_, src_buf, CL_TRUE, 0,
+                               src_size * sizeof(uint8_t), src, 0, nullptr, nullptr);
+    CHECK_ERROR(err, "Failed to write resize src buffer");
+
+    clSetKernelArg(resize_kernel_, 0, sizeof(cl_mem), &src_buf);
+    clSetKernelArg(resize_kernel_, 1, sizeof(cl_mem), &dst_buf);
+    clSetKernelArg(resize_kernel_, 2, sizeof(int32_t), &src_width);
+    clSetKernelArg(resize_kernel_, 3, sizeof(int32_t), &src_height);
+    clSetKernelArg(resize_kernel_, 4, sizeof(int32_t), &src_stride);
+    clSetKernelArg(resize_kernel_, 5, sizeof(int32_t), &dst_width);
+    clSetKernelArg(resize_kernel_, 6, sizeof(int32_t), &dst_height);
+    clSetKernelArg(resize_kernel_, 7, sizeof(int32_t), &channels);
+
+    size_t global_size[2] = {(size_t)dst_height, (size_t)dst_width};
+    err = clEnqueueNDRangeKernel(queue_, resize_kernel_, 2, nullptr,
+                                 global_size, nullptr, 0, nullptr, nullptr);
+    CHECK_ERROR(err, "Failed to execute resize kernel");
+
+    err = clEnqueueReadBuffer(queue_, dst_buf, CL_TRUE, 0,
+                              dst_size * sizeof(uint8_t), dst, 0, nullptr, nullptr);
+    CHECK_ERROR(err, "Failed to read resize dst buffer");
+
+    clReleaseMemObject(src_buf);
+    clReleaseMemObject(dst_buf);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "  OpenCL resize: " << duration.count() / 1000.0 << " ms" << std::endl;
 }
 
 void OpenCLAccelerator::normalizeImage(
     const uint8_t* src, float* dst,
     int32_t height, int32_t width, int32_t channels,
     const float* mean, const float* std) {
-    
+
     auto start = std::chrono::high_resolution_clock::now();
     
     cl_int err;
@@ -391,35 +467,35 @@ void OpenCLAccelerator::computeRotaryPosEmb(
 
 void OpenCLAccelerator::initAttentionMasks(
     float* full_mask, float* window_mask, int32_t seq_len) {
-    
+
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     cl_int err;
     size_t mask_size = seq_len * seq_len * sizeof(float);
-    
+
     // Initialize full_mask to all 0.0 on CPU (simple memset)
     std::memset(full_mask, 0, mask_size);
-    
+
     // Create buffer for window mask on device
     cl_mem window_mask_buf = clCreateBuffer(context_,
         CL_MEM_WRITE_ONLY,
         mask_size, nullptr, &err);
     CHECK_ERROR(err, "Failed to create window mask buffer");
-    
+
     // Initialize window mask to -1000.0 using kernel
     clSetKernelArg(mask_kernel_, 0, sizeof(cl_mem), &window_mask_buf);
     clSetKernelArg(mask_kernel_, 1, sizeof(int32_t), &seq_len);
-    
+
     size_t global_size[2] = {(size_t)seq_len, (size_t)seq_len};
     err = clEnqueueNDRangeKernel(queue_, mask_kernel_, 2, nullptr,
                                  global_size, nullptr, 0, nullptr, nullptr);
     CHECK_ERROR(err, "Failed to execute mask kernel");
-    
+
     // Read window mask back to host
     err = clEnqueueReadBuffer(queue_, window_mask_buf, CL_TRUE, 0,
                               mask_size, window_mask, 0, nullptr, nullptr);
     CHECK_ERROR(err, "Failed to read window mask buffer");
-    
+
     // Apply windowed regions (set to 0.0) on CPU
     std::vector<int32_t> cu_window_seqlens = {
         0, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024
@@ -433,13 +509,180 @@ void OpenCLAccelerator::initAttentionMasks(
             }
         }
     }
-    
+
     // Cleanup
     clReleaseMemObject(window_mask_buf);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "  OpenCL masks: " << duration.count() / 1000.0 << " ms" << std::endl;
+}
+
+void OpenCLAccelerator::releasePersistentBuffers() {
+    if (persistent_src_buf_) { clReleaseMemObject(persistent_src_buf_); persistent_src_buf_ = nullptr; }
+    if (persistent_norm_buf_) { clReleaseMemObject(persistent_norm_buf_); persistent_norm_buf_ = nullptr; }
+    if (persistent_patches_buf_) { clReleaseMemObject(persistent_patches_buf_); persistent_patches_buf_ = nullptr; }
+    persistent_allocated_ = false;
+}
+
+bool OpenCLAccelerator::allocatePersistentBuffers(
+    int32_t src_width, int32_t src_height, int32_t src_stride,
+    int32_t dst_width, int32_t dst_height) {
+
+    // Skip reallocation if dimensions unchanged
+    if (persistent_allocated_ &&
+        persistent_src_width_ == src_width &&
+        persistent_src_height_ == src_height &&
+        persistent_src_stride_ == src_stride &&
+        persistent_dst_width_ == dst_width &&
+        persistent_dst_height_ == dst_height) {
+        return true;
+    }
+
+    releasePersistentBuffers();
+
+    cl_int err;
+    size_t src_size = src_height * src_stride;
+    // Temporal replication: T=2, each frame is dst_h * dst_w * 3 floats
+    size_t norm_size = 2 * dst_height * dst_width * 3 * sizeof(float);
+    // Output patches: 784 * 1536 floats for 448x448
+    int32_t gridH = dst_height / config_->patch_size;
+    int32_t gridW = dst_width / config_->patch_size;
+    int32_t merged_gridH = gridH / config_->merge_size;
+    int32_t merged_gridW = gridW / config_->merge_size;
+    int32_t seq_len = merged_gridH * merged_gridW * config_->merge_size * config_->merge_size;
+    size_t patches_size = seq_len * config_->input_dim * sizeof(float);
+
+    persistent_src_buf_ = clCreateBuffer(context_, CL_MEM_READ_ONLY, src_size, nullptr, &err);
+    if (err != CL_SUCCESS) { std::cerr << "Failed to alloc src buf: " << getErrorString(err) << std::endl; return false; }
+
+    persistent_norm_buf_ = clCreateBuffer(context_, CL_MEM_READ_WRITE, norm_size, nullptr, &err);
+    if (err != CL_SUCCESS) { std::cerr << "Failed to alloc norm buf: " << getErrorString(err) << std::endl; return false; }
+
+    persistent_patches_buf_ = clCreateBuffer(context_, CL_MEM_WRITE_ONLY, patches_size, nullptr, &err);
+    if (err != CL_SUCCESS) { std::cerr << "Failed to alloc patches buf: " << getErrorString(err) << std::endl; return false; }
+
+    persistent_src_width_ = src_width;
+    persistent_src_height_ = src_height;
+    persistent_src_stride_ = src_stride;
+    persistent_dst_width_ = dst_width;
+    persistent_dst_height_ = dst_height;
+    persistent_allocated_ = true;
+
+    std::cout << "  Persistent buffers allocated: src=" << src_size
+              << "B, norm=" << norm_size << "B, patches=" << patches_size << "B" << std::endl;
+    return true;
+}
+
+double OpenCLAccelerator::preprocessFrameGPU(
+    const uint8_t* rgb_data, float* output_patches,
+    int32_t src_width, int32_t src_height, int32_t row_stride,
+    int32_t dst_width, int32_t dst_height) {
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Allocate persistent buffers (no-op if sizes unchanged)
+    if (!allocatePersistentBuffers(src_width, src_height, row_stride, dst_width, dst_height)) {
+        std::cerr << "Failed to allocate persistent buffers" << std::endl;
+        return -1.0;
+    }
+
+    cl_int err;
+
+    // === Step 1: Single upload of source RGB24 ===
+    size_t src_size = src_height * row_stride;
+    err = clEnqueueWriteBuffer(queue_, persistent_src_buf_, CL_TRUE, 0,
+                               src_size, rgb_data, 0, nullptr, nullptr);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to upload source frame: " << getErrorString(err) << std::endl;
+        return -1.0;
+    }
+
+    // === Step 2: Fused resize + normalize kernel ===
+    // reads uchar RGB24, bilinear resize, normalize with mean/std, outputs float32
+    // Writes to persistent_norm_buf_ (first temporal copy)
+    clSetKernelArg(fused_resize_norm_kernel_, 0, sizeof(cl_mem), &persistent_src_buf_);
+    clSetKernelArg(fused_resize_norm_kernel_, 1, sizeof(cl_mem), &persistent_norm_buf_);
+    clSetKernelArg(fused_resize_norm_kernel_, 2, sizeof(int32_t), &src_width);
+    clSetKernelArg(fused_resize_norm_kernel_, 3, sizeof(int32_t), &src_height);
+    clSetKernelArg(fused_resize_norm_kernel_, 4, sizeof(int32_t), &row_stride);
+    clSetKernelArg(fused_resize_norm_kernel_, 5, sizeof(int32_t), &dst_width);
+    clSetKernelArg(fused_resize_norm_kernel_, 6, sizeof(int32_t), &dst_height);
+    float mean_r = config_->image_mean[0], mean_g = config_->image_mean[1], mean_b = config_->image_mean[2];
+    float inv_std_r = 1.0f / config_->image_std[0];
+    float inv_std_g = 1.0f / config_->image_std[1];
+    float inv_std_b = 1.0f / config_->image_std[2];
+    clSetKernelArg(fused_resize_norm_kernel_, 7, sizeof(float), &mean_r);
+    clSetKernelArg(fused_resize_norm_kernel_, 8, sizeof(float), &mean_g);
+    clSetKernelArg(fused_resize_norm_kernel_, 9, sizeof(float), &mean_b);
+    clSetKernelArg(fused_resize_norm_kernel_, 10, sizeof(float), &inv_std_r);
+    clSetKernelArg(fused_resize_norm_kernel_, 11, sizeof(float), &inv_std_g);
+    clSetKernelArg(fused_resize_norm_kernel_, 12, sizeof(float), &inv_std_b);
+
+    size_t resize_global[2] = {(size_t)dst_height, (size_t)dst_width};
+    err = clEnqueueNDRangeKernel(queue_, fused_resize_norm_kernel_, 2, nullptr,
+                                 resize_global, nullptr, 0, nullptr, nullptr);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to execute fused resize+normalize kernel: " << getErrorString(err) << std::endl;
+        return -1.0;
+    }
+
+    // === Step 2b: Replicate temporal dimension ===
+    // Copy first frame (dst_h * dst_w * 3 floats) to second temporal slot
+    size_t frame_float_size = dst_height * dst_width * 3 * sizeof(float);
+    err = clEnqueueCopyBuffer(queue_,
+                              persistent_norm_buf_, persistent_norm_buf_,
+                              0, frame_float_size, frame_float_size,
+                              0, nullptr, nullptr);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to replicate temporal: " << getErrorString(err) << std::endl;
+        return -1.0;
+    }
+
+    // === Step 3: Transpose to patches ===
+    // reads from persistent_norm_buf_ (float), writes to persistent_patches_buf_
+    int32_t T = config_->temporal_patch_size;
+    int32_t C = 3;
+    clSetKernelArg(transpose_kernel_, 0, sizeof(cl_mem), &persistent_norm_buf_);
+    clSetKernelArg(transpose_kernel_, 1, sizeof(cl_mem), &persistent_patches_buf_);
+    clSetKernelArg(transpose_kernel_, 2, sizeof(int32_t), &T);
+    clSetKernelArg(transpose_kernel_, 3, sizeof(int32_t), &dst_height);
+    clSetKernelArg(transpose_kernel_, 4, sizeof(int32_t), &dst_width);
+    clSetKernelArg(transpose_kernel_, 5, sizeof(int32_t), &C);
+    clSetKernelArg(transpose_kernel_, 6, sizeof(int32_t), &config_->patch_size);
+    clSetKernelArg(transpose_kernel_, 7, sizeof(int32_t), &config_->merge_size);
+    clSetKernelArg(transpose_kernel_, 8, sizeof(int32_t), &config_->temporal_patch_size);
+    clSetKernelArg(transpose_kernel_, 9, sizeof(int32_t), &config_->input_dim);
+
+    int32_t gridT = T / config_->temporal_patch_size;
+    int32_t gridH = dst_height / config_->patch_size;
+    int32_t gridW = dst_width / config_->patch_size;
+    int32_t merged_gridH = gridH / config_->merge_size;
+    int32_t merged_gridW = gridW / config_->merge_size;
+    int32_t seq_length = gridT * merged_gridH * merged_gridW * config_->merge_size * config_->merge_size;
+
+    size_t transpose_global = seq_length;
+    size_t transpose_local = 64;
+    err = clEnqueueNDRangeKernel(queue_, transpose_kernel_, 1, nullptr,
+                                 &transpose_global, &transpose_local, 0, nullptr, nullptr);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to execute transpose kernel: " << getErrorString(err) << std::endl;
+        return -1.0;
+    }
+
+    // === Step 4: Single download of patches ===
+    size_t patches_size = seq_length * config_->input_dim * sizeof(float);
+    err = clEnqueueReadBuffer(queue_, persistent_patches_buf_, CL_TRUE, 0,
+                              patches_size, output_patches, 0, nullptr, nullptr);
+    if (err != CL_SUCCESS) {
+        std::cerr << "Failed to download patches: " << getErrorString(err) << std::endl;
+        return -1.0;
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    double ms = std::chrono::duration<double, std::milli>(end - start).count();
+    std::cout << "  preprocessFrameGPU: " << ms << " ms" << std::endl;
+    return ms;
 }
 
 } // namespace qwen_vl

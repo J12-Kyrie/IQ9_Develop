@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <iostream>
+#include <chrono>
 
 // STB Image for image loading
 #define STB_IMAGE_IMPLEMENTATION
@@ -396,6 +397,82 @@ PreprocessedData QwenVLPreprocessor::preprocessImage(
     // and are not passed as runtime inputs.
 
     std::cout << "✅ Preprocessing complete!" << std::endl;
+    return result;
+}
+
+PreprocessedData QwenVLPreprocessor::preprocessFromFrame(
+    const uint8_t* rgb_data, int32_t src_width, int32_t src_height,
+    int32_t row_stride, int32_t target_size) {
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+
+    std::cout << "\n=== Preprocessing from DMA-BUF Frame (Fused GPU) ===" << std::endl;
+    PreprocessedData result;
+
+    if (!use_opencl_ || !opencl_) {
+        throw std::runtime_error("preprocessFromFrame requires OpenCL");
+    }
+
+    // Target dimensions
+    int32_t resized_h = target_size;
+    int32_t resized_w = target_size;
+    result.resized_height = resized_h;
+    result.resized_width = resized_w;
+
+    // Compute grid dimensions
+    int32_t T = config_.temporal_patch_size;
+    int32_t gridT = T / config_.temporal_patch_size;
+    int32_t gridH = resized_h / config_.patch_size;
+    int32_t gridW = resized_w / config_.patch_size;
+    int32_t merged_gridH = gridH / config_.merge_size;
+    int32_t merged_gridW = gridW / config_.merge_size;
+    result.seq_len = gridT * merged_gridH * merged_gridW *
+                    config_.merge_size * config_.merge_size;
+    result.image_grid_thw = {gridT, gridH, gridW};
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    // Fused GPU pipeline: single upload → resize+normalize → temporal replicate → transpose → single download
+    result.pixel_values.resize(result.seq_len * config_.input_dim);
+
+    auto t2 = std::chrono::high_resolution_clock::now();
+    double gpu_ms = opencl_->preprocessFrameGPU(
+        rgb_data, result.pixel_values.data(),
+        src_width, src_height, row_stride,
+        resized_w, resized_h);
+    auto t3 = std::chrono::high_resolution_clock::now();
+
+    if (gpu_ms < 0) {
+        throw std::runtime_error("preprocessFrameGPU failed");
+    }
+
+    // RoPE: precomputed tables for 448x448
+    int32_t pos_seq_len = gridT * gridH * gridW;
+    result.position_ids_cos.resize(pos_seq_len * config_.vit_pos_emb_dim);
+    result.position_ids_sin.resize(pos_seq_len * config_.vit_pos_emb_dim);
+
+    if (pos_seq_len == ROPE_SEQ_LEN_448 && config_.vit_pos_emb_dim == ROPE_DIM) {
+        std::memcpy(result.position_ids_cos.data(), ROPE_COS_TABLE_448,
+                    pos_seq_len * config_.vit_pos_emb_dim * sizeof(float));
+        std::memcpy(result.position_ids_sin.data(), ROPE_SIN_TABLE_448,
+                    pos_seq_len * config_.vit_pos_emb_dim * sizeof(float));
+    } else {
+        throw std::runtime_error("Only 448x448 supported (got seq_len=" +
+                                std::to_string(pos_seq_len) + ")");
+    }
+
+    auto t4 = std::chrono::high_resolution_clock::now();
+
+    double setup_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
+    double resize_ms = std::chrono::duration<double, std::milli>(t2 - t1).count();
+    double gpu_total_ms = std::chrono::duration<double, std::milli>(t3 - t2).count();
+    double rope_ms = std::chrono::duration<double, std::milli>(t4 - t3).count();
+    double total_ms = std::chrono::duration<double, std::milli>(t4 - t0).count();
+
+    std::cout << "  Timing: setup=" << setup_ms << "ms resize=" << resize_ms
+              << "ms gpu=" << gpu_total_ms << "ms (kernel=" << gpu_ms
+              << "ms) rope=" << rope_ms << "ms total=" << total_ms << "ms" << std::endl;
+    std::cout << "✅ Frame preprocessing complete" << std::endl;
     return result;
 }
 

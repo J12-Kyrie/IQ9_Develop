@@ -434,7 +434,11 @@ public:
                       const std::string& imagePath,
                       const std::string& outputDir,
                       int32_t targetSize,
-                      bool useOpenCL)
+                      bool useOpenCL,
+                      const std::string& framePath = "",
+                      int32_t frameWidth = 0,
+                      int32_t frameHeight = 0,
+                      int32_t frameStride = 0)
         : m_backendPath(backendPath),
           m_systemLibPath(systemLibPath),
           m_serializedBinPath(serializedBinPath),
@@ -442,6 +446,10 @@ public:
           m_outputDir(outputDir),
           m_targetSize(targetSize),
           m_useOpenCL(useOpenCL),
+          m_framePath(framePath),
+          m_frameWidth(frameWidth),
+          m_frameHeight(frameHeight),
+          m_frameStride(frameStride),
           m_backendLibHandle(nullptr),
           m_systemLibHandle(nullptr),
           m_backendHandle(nullptr),
@@ -518,8 +526,33 @@ public:
 
         qwen_vl::QwenVLPreprocessor preprocessor(config, m_useOpenCL);
 
-        // Preprocess the image - this returns data directly in memory
-        qwen_vl::PreprocessedData preprocessed = preprocessor.preprocessImage(m_imagePath, m_targetSize);
+        // Preprocess: frame mode (DMA-BUF RGB24) or image mode (file)
+        qwen_vl::PreprocessedData preprocessed;
+        if (!m_framePath.empty()) {
+            // Load raw RGB24 frame data from file
+            std::ifstream frameFile(m_framePath, std::ios::binary | std::ios::ate);
+            if (!frameFile.is_open()) {
+                LOG_ERROR("Failed to open frame file: %s", m_framePath.c_str());
+                return false;
+            }
+            size_t fileSize = frameFile.tellg();
+            frameFile.seekg(0);
+            int32_t stride = m_frameStride > 0 ? m_frameStride : m_frameWidth * 3;
+            size_t expectedSize = (size_t)m_frameHeight * stride;
+            if (fileSize < expectedSize) {
+                LOG_ERROR("Frame file too small: %zu < %zu", fileSize, expectedSize);
+                return false;
+            }
+            std::vector<uint8_t> frameData(expectedSize);
+            frameFile.read(reinterpret_cast<char*>(frameData.data()), expectedSize);
+            frameFile.close();
+
+            LOG_INFO("Frame mode: %dx%d stride=%d (%zu bytes)", m_frameWidth, m_frameHeight, stride, expectedSize);
+            preprocessed = preprocessor.preprocessFromFrame(
+                frameData.data(), m_frameWidth, m_frameHeight, stride, m_targetSize);
+        } else {
+            preprocessed = preprocessor.preprocessImage(m_imagePath, m_targetSize);
+        }
 
         auto preprocessEnd = std::chrono::high_resolution_clock::now();
         auto preprocessDuration = std::chrono::duration_cast<std::chrono::milliseconds>(preprocessEnd - preprocessStart);
@@ -608,6 +641,12 @@ private:
     std::string m_outputDir;
     int32_t m_targetSize;
     bool m_useOpenCL;
+
+    // Frame mode (DMA-BUF RGB24 input)
+    std::string m_framePath;
+    int32_t m_frameWidth;
+    int32_t m_frameHeight;
+    int32_t m_frameStride;
 
     // Library handles
     void* m_backendLibHandle;
@@ -1194,6 +1233,11 @@ void showHelp() {
     std::cout << "  --system_library <FILE>   Path to QNN system library (default: /usr/lib/libQnnSystem.so)\n";
     std::cout << "  --model <FILE>            Path to serialized binary (veg.serialized.bin)\n";
     std::cout << "  --image <FILE>            Path to input image (jpg/png)\n";
+    std::cout << "\nFRAME MODE (DMA-BUF RGB24 input, replaces --image):\n";
+    std::cout << "  --frame <FILE>            Path to raw RGB24 frame data\n";
+    std::cout << "  --frame_width <INT>       Frame width in pixels (required with --frame)\n";
+    std::cout << "  --frame_height <INT>      Frame height in pixels (required with --frame)\n";
+    std::cout << "  --frame_stride <INT>      Row stride in bytes (default: width*3)\n";
     std::cout << "\nOPTIONAL OPTIONS:\n";
     std::cout << "  --output_dir <DIR>        Output directory (default: ./output)\n";
     std::cout << "  --target_size <SIZE>      Target image size (default: 448)\n";
@@ -1210,6 +1254,10 @@ int main(int argc, char** argv) {
     std::string outputDir = "./output";
     int32_t targetSize = 448;
     bool useOpenCL = true;
+    std::string framePath;
+    int32_t frameWidth = 0;
+    int32_t frameHeight = 0;
+    int32_t frameStride = 0;
 
     // Parse command line arguments
     for (int i = 1; i < argc; i++) {
@@ -1226,6 +1274,14 @@ int main(int argc, char** argv) {
             serializedBinPath = argv[++i];
         } else if (arg == "--image" && i + 1 < argc) {
             imagePath = argv[++i];
+        } else if (arg == "--frame" && i + 1 < argc) {
+            framePath = argv[++i];
+        } else if (arg == "--frame_width" && i + 1 < argc) {
+            frameWidth = std::stoi(argv[++i]);
+        } else if (arg == "--frame_height" && i + 1 < argc) {
+            frameHeight = std::stoi(argv[++i]);
+        } else if (arg == "--frame_stride" && i + 1 < argc) {
+            frameStride = std::stoi(argv[++i]);
         } else if (arg == "--output_dir" && i + 1 < argc) {
             outputDir = argv[++i];
         } else if (arg == "--target_size" && i + 1 < argc) {
@@ -1240,9 +1296,18 @@ int main(int argc, char** argv) {
     }
 
     // Validate required arguments
-    if (backendPath.empty() || systemLibPath.empty() ||
-        serializedBinPath.empty() || imagePath.empty()) {
-        LOG_ERROR("Missing required arguments");
+    if (backendPath.empty() || systemLibPath.empty() || serializedBinPath.empty()) {
+        LOG_ERROR("Missing required arguments: --backend, --system_library, --model");
+        showHelp();
+        return 1;
+    }
+    if (framePath.empty() && imagePath.empty()) {
+        LOG_ERROR("Must specify either --image or --frame");
+        showHelp();
+        return 1;
+    }
+    if (!framePath.empty() && (frameWidth <= 0 || frameHeight <= 0)) {
+        LOG_ERROR("--frame requires --frame_width and --frame_height");
         showHelp();
         return 1;
     }
@@ -1253,14 +1318,19 @@ int main(int argc, char** argv) {
     LOG_INFO("Backend: %s", backendPath.c_str());
     LOG_INFO("System Library: %s", systemLibPath.c_str());
     LOG_INFO("Model: %s", serializedBinPath.c_str());
-    LOG_INFO("Image: %s", imagePath.c_str());
+    if (!framePath.empty()) {
+        LOG_INFO("Frame: %s (%dx%d stride=%d)", framePath.c_str(), frameWidth, frameHeight, frameStride);
+    } else {
+        LOG_INFO("Image: %s", imagePath.c_str());
+    }
     LOG_INFO("Output Directory: %s", outputDir.c_str());
     LOG_INFO("Target Size: %d", targetSize);
     LOG_INFO("OpenCL: %s", useOpenCL ? "Enabled" : "Disabled");
     LOG_INFO("========================================\n");
 
     VEGCombinedRunner runner(backendPath, systemLibPath, serializedBinPath,
-                             imagePath, outputDir, targetSize, useOpenCL);
+                             imagePath, outputDir, targetSize, useOpenCL,
+                             framePath, frameWidth, frameHeight, frameStride);
 
     if (!runner.initialize()) {
         LOG_ERROR("Failed to initialize");
