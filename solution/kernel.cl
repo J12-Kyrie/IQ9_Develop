@@ -1,7 +1,7 @@
 // ============================================================
 // kernel.cl — transpose_to_patch (exp_3: nested loops + strength reduction)
-// Strategy: 3-level nested loop (c, t, hw) eliminates divisions in inner loop
-// All divisors are runtime values to avoid Adreno compiler bug
+// Strategy: 4-level nested loop (c x tps x patch_size x patch_size)
+// Inner loop has ZERO divisions — only increment and compare
 // ============================================================
 
 __kernel void transpose_to_patch(
@@ -46,15 +46,11 @@ __kernel void transpose_to_patch(
     int HW_C = HW * C;
     int outBase = seqIdx * input_dim;
 
-    // 3-level nested loop: c * tps * patch_area = input_dim
-    // Inner loop has ZERO divisions — just increment and compare
     int elemIdx = 0;
     for (int c = 0; c < C; c++) {
-        int srcC = c;
-        int cBase = srcC;
         for (int t = 0; t < tps; t++) {
             int srcT = baseT + t;
-            int tBase = srcT * HW_C + cBase;
+            int tBase = srcT * HW_C + c;
             for (int ph = 0; ph < patch_size; ph++) {
                 int srcH = baseH + ph;
                 int rowBase = tBase + srcH * WC;
