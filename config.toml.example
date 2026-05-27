@@ -1,0 +1,25 @@
+[kernel]
+name = "hello-world"
+description = "Placeholder — replace with your kernel"
+author = ""
+version = "1.0.0"
+
+[device]
+ssh_host = "192.168.100.102"
+ssh_user = "ubuntu"
+# Set SSH_PASS environment variable or use SSH key auth
+workspace = "/mnt/workspace/auto-opencl-kernel"
+build_dir = "/mnt/workspace/auto-opencl-kernel/build"
+gpu = "Adreno 663"
+soc = "QCS9075"
+
+[benchmark]
+resolutions = ["320x240", "1920x1080"]
+iterations_per_resolution = 100
+warmup_iterations = 10
+cpu_tolerance = 0.001
+
+[optimization]
+max_iterations = 100
+plateau_threshold = 5
+ab_test_threshold = 0.05

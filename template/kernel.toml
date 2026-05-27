@@ -1,0 +1,43 @@
+# kernel.toml — Kernel Configuration
+# Each branch must provide this file. Optimizer reads it to configure the benchmark harness.
+# Generated via Kernel Configuration QA interaction with the user.
+
+[kernel]
+name = "hello_kernel"
+description = "Element-wise multiply by 2 (template placeholder)"
+
+# Kernel functions to instantiate (order matters for multi-kernel pipelines)
+[[kernels]]
+function = "hello_kernel"
+ndim = 1                    # NDRange dimensions: 1 or 2
+global_size = "N"           # Expression evaluated per problem_size
+local_work_size = 0         # 0 = NULL (let driver decide)
+
+# Kernel arguments (positional, must match __kernel void signature)
+[[kernels.args]]
+name = "input"
+type = "buffer_read"        # buffer_read | buffer_write | buffer_rw | int | float
+size = "N * 4"              # Buffer size expression (bytes). Only for buffer types.
+
+[[kernels.args]]
+name = "output"
+type = "buffer_write"
+size = "N * 4"
+
+[[kernels.args]]
+name = "N"
+type = "int"
+source = "problem_size"     # Value comes from problem_size
+
+# Problem sizes for 3-level benchmark strategy
+# Each entry is a dict of variable_name -> value, available in size expressions
+[problem_sizes]
+quick  = [{N = 1024}, {N = 65536}]
+stride = [{N = 1024}, {N = 16384}, {N = 65536}, {N = 1048576}]
+full   = [{N = 1024}, {N = 4096}, {N = 16384}, {N = 65536}, {N = 262144}, {N = 1048576}, {N = 4194304}, {N = 16777216}]
+
+# Correctness verification
+[correctness]
+enabled = true
+mode = "cpu_baseline"       # cpu_baseline | gold_file | none
+tolerance = 0.001           # Max allowed absolute difference
