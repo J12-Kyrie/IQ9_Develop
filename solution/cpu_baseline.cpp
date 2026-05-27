@@ -1,18 +1,15 @@
 // cpu_baseline.cpp — CPU reference for transpose_to_patch
-// Produces gold-standard output for GPU correctness verification.
-
 #include <vector>
 
 void cpu_baseline(const std::vector<float>& input, std::vector<float>& output, int total_elements) {
-    // Production parameters (must match kernel.toml)
     const int T = 2;
     const int C = 3;
     const int patch_size = 16;
     const int merge_size = 2;
     const int temporal_patch_size = 2;
     const int input_dim = 1536;
-    const int patch_area = patch_size * patch_size;       // 256
-    const int tps_pp = temporal_patch_size * patch_area;  // 512
+    const int patch_area = patch_size * patch_size;
+    const int tps_pp = temporal_patch_size * patch_area;
 
     // Infer H, W from total_elements = T * H * W * C
     int HW = total_elements / (T * C);
@@ -32,7 +29,8 @@ void cpu_baseline(const std::vector<float>& input, std::vector<float>& output, i
     int gridW = W / patch_size;
     int merged_gridH = gridH / merge_size;
     int merged_gridW = gridW / merge_size;
-    int seqLength = 1 * merged_gridH * merged_gridW * merge_size * merge_size;
+    int gridT = T / temporal_patch_size;
+    int seqLength = gridT * merged_gridH * merged_gridW * merge_size * merge_size;
 
     output.resize((size_t)seqLength * input_dim);
 

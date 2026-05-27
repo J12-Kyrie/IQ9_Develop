@@ -63,7 +63,7 @@ value = 1536
 [problem_sizes]
 quick  = [{T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}]
 stride = [{T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}, {T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=672, W=672, C=3, seqLength=1764, input_dim=1536}, {T=2, H=896, W=896, C=3, seqLength=3136, input_dim=1536}]
-full   = [{T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}, {T=2, H=336, W=336, C=3, seqLength=441, input_dim=1536}, {T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=560, W=560, C=3, seqLength=1225, input_dim=1536}, {T=2, H=672, W=672, C=3, seqLength=1764, input_dim=1536}, {T=2, H=784, W=784, C=3, seqLength=2401, input_dim=1536}, {T=2, H=896, W=896, C=3, seqLength=3136, input_dim=1536}, {T=2, H=1008, W=1008, C=3, seqLength=3969, input_dim=1536}]
+full   = [{T=2, H=128, W=128, C=3, seqLength=64, input_dim=1536}, {T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}, {T=2, H=320, W=320, C=3, seqLength=400, input_dim=1536}, {T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=544, W=544, C=3, seqLength=1156, input_dim=1536}, {T=2, H=672, W=672, C=3, seqLength=1764, input_dim=1536}, {T=2, H=800, W=800, C=3, seqLength=2500, input_dim=1536}, {T=2, H=896, W=896, C=3, seqLength=3136, input_dim=1536}]
 
 [correctness]
 enabled = true
