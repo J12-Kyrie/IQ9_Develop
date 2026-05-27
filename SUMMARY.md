@@ -12,3 +12,4 @@
 | 5 | 2026-05-27 | Manual pw unroll | 4.422 | PASS |
 | 5b | 2026-05-27 | Precomputed pw offsets | 4.426 | PASS |
 | 6 | 2026-05-27 | vload3 channel reads | - | FAIL (inf values) |
+| 7 | 2026-05-27 | Reordered loops for input coalescing | 4.068 | PASS |
