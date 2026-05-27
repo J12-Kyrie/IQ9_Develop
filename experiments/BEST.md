@@ -1,8 +1,6 @@
 # BEST.md — Golden Reference
 
-> Rollback target. Updated only when a new best is confirmed.
-
-- **best_exp**: (none yet)
-- **best_kernel_ms**: (none yet)
-- **best_total_ms**: (none yet)
-- **kernel_snapshot**: (none yet)
+- **best_exp**: 1
+- **best_kernel_ms**: 4.695
+- **best_resolution**: H=448, W=448
+- **kernel_snapshot**: experiments/exp_1/kernel.cl
