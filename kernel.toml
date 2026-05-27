@@ -1,0 +1,71 @@
+# kernel.toml — transpose_to_patch Configuration
+
+[kernel]
+name = "transpose_to_patch"
+description = "Transpose normalized image patches to VIT input format"
+
+[[kernels]]
+function = "transpose_to_patch"
+ndim = 1
+global_size = "seqLength"
+local_work_size = 0
+
+[[kernels.args]]
+name = "input"
+type = "buffer_read"
+size = "T * H * W * C * 4"
+
+[[kernels.args]]
+name = "output"
+type = "buffer_write"
+size = "seqLength * input_dim * 4"
+
+[[kernels.args]]
+name = "T"
+type = "int"
+source = "T"
+
+[[kernels.args]]
+name = "H"
+type = "int"
+source = "H"
+
+[[kernels.args]]
+name = "W"
+type = "int"
+source = "W"
+
+[[kernels.args]]
+name = "C"
+type = "int"
+value = 3
+
+[[kernels.args]]
+name = "patch_size"
+type = "int"
+value = 16
+
+[[kernels.args]]
+name = "merge_size"
+type = "int"
+value = 2
+
+[[kernels.args]]
+name = "temporal_patch_size"
+type = "int"
+value = 2
+
+[[kernels.args]]
+name = "input_dim"
+type = "int"
+value = 1536
+
+[problem_sizes]
+quick  = [{T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}]
+stride = [{T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}, {T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=672, W=672, C=3, seqLength=1764, input_dim=1536}, {T=2, H=896, W=896, C=3, seqLength=3136, input_dim=1536}]
+full   = [{T=2, H=224, W=224, C=3, seqLength=196, input_dim=1536}, {T=2, H=336, W=336, C=3, seqLength=441, input_dim=1536}, {T=2, H=448, W=448, C=3, seqLength=784, input_dim=1536}, {T=2, H=560, W=560, C=3, seqLength=1225, input_dim=1536}, {T=2, H=672, W=672, C=3, seqLength=1764, input_dim=1536}, {T=2, H=784, W=784, C=3, seqLength=2401, input_dim=1536}, {T=2, H=896, W=896, C=3, seqLength=3136, input_dim=1536}, {T=2, H=1008, W=1008, C=3, seqLength=3969, input_dim=1536}]
+
+[correctness]
+enabled = true
+mode = "cpu_baseline"
+tolerance = 0.001
