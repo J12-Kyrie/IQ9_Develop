@@ -97,3 +97,63 @@ The Adreno 663 OpenCL compiler is extremely sensitive to code complexity. Simple
 | vload3 for channel reads | -24.4% | 3x fewer load instructions |
 | Reordered loops (c innermost) | -13.4% | Input read coalescing |
 | Nested loops (eliminate divisions) | -10.3% | Zero inner-loop divisions |
+
+## exp_15/16: WG Size and Local Memory (2026-05-28)
+
+### WG Size Impact (Critical Finding)
+- **WG=auto (driver chooses ~32+)**: 3.077ms — driver picks large WG, terrible for this kernel
+- **WG=128**: 3.177ms
+- **WG=64**: 2.890ms  
+- **WG=32**: 1.907ms
+- **WG=16**: 1.449ms
+- **WG=8**: 0.915ms ← OPTIMAL
+- **WG=4**: 0.986ms
+- Small WG (4-8) outperforms large WG (32-128) by 2-3x on Adreno 663 for this kernel
+- Driver auto-tune is catastrophic — always specify local_work_size explicitly
+
+### Local Memory (exp_15)
+- Static `__local float tile[1536]` with cooperative loading: correctness FAIL
+- __local argument not supported by benchmark framework
+- Local memory approach needs investigation — possible Adreno 663 barrier/local mem bug
+- For now, simple loop with small WG is faster and correct
+
+## WG Size Validation (2026-05-28)
+
+### Cross-Kernel Test
+- **transpose_to_patch**: WG=8 optimal (0.915ms), WG=auto 3.36x slower
+- **resize_bilinear_normalized**: WG=128 optimal (0.125ms), WG=8 is 3.5x SLOWER
+
+### Conclusion
+WG size is **kernel-specific**, NOT a platform-level constant. The optimal WG depends on:
+- Memory access patterns (coalesced vs scattered)
+- Compute density per work-item
+- Register pressure and occupancy
+- Global memory bandwidth utilization
+
+**Rule**: Always sweep WG sizes (4, 8, 16, 32, 64, 128) per kernel. Never assume a universal default.
+
+## exp_17-20c: Loop Unrolling (2026-05-28)
+
+### Effective
+- **#pragma unroll 4 on pw loop**: ~4% improvement (0.915→0.875ms)
+- **Manual unroll ph=2 rows**: ~11% improvement (0.875→0.777ms)
+- **Manual unroll ph=2 + explicit t=2**: ~12% improvement (0.875→0.764ms)
+
+### Ineffective
+- **Output write coalescing (3 passes)**: WORSE (1.404ms) — input re-read cost > coalescing benefit
+- **2 patches per WI**: WORSE (1.005ms) — less parallelism
+- **#pragma unroll 8 on pw**: WORSE (0.907ms) — register spilling
+- **Full #pragma unroll on pw**: WORSE (0.914ms) — register spilling
+- **Manual unroll ph=4 rows**: WORSE (1.131ms) — too many registers
+
+### Key Insight
+Adreno 663 has sweet spot for unrolling:
+- ph=2 rows: GOOD (reduces loop overhead without register pressure)
+- ph=4 rows: BAD (register spilling kills performance)
+- pw=4: GOOD balance
+- pw=8/full: BAD (register spilling)
+
+### Final Status
+- **Best**: 0.764ms (exp_20c)
+- **Theoretical min**: ~0.69ms
+- **Gap**: 10.7% — near memory bandwidth limit

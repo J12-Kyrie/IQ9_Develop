@@ -13,3 +13,12 @@
 | 12 | 2026-05-28 | Block-level dispatch + vload3 | 3.027 | PASS |
 | 13 | 2026-05-28 | vload3 + incremental row | 3.079 | PASS |
 | 14 | 2026-05-28 | vload3 + bitwise merge decode | 3.079 | PASS |
+| 15 | 2026-05-28 | Local memory tiling (static __local) | FAIL | FAIL |
+| 16 | 2026-05-28 | WG size sweep: WG=8 optimal | 0.915 | PASS |
+| 17 | 2026-05-28 | Output write coalescing (3 passes) | 1.404 | PASS |
+| 18 | 2026-05-28 | 2 patches per WI | 1.005 | PASS |
+| 19 | 2026-05-28 | #pragma unroll 4 on pw | 0.875 | PASS |
+| 19c | 2026-05-28 | #pragma unroll 8 on pw | 0.907 | PASS |
+| 20 | 2026-05-28 | Manual unroll ph=2 rows | 0.777 | PASS |
+| 20b | 2026-05-28 | Manual unroll ph=4 rows | 1.131 | PASS |
+| 20c | 2026-05-28 | Manual unroll ph=2 + t explicit | 0.764 | PASS |

@@ -8,7 +8,7 @@ description = "Transpose normalized image patches to VIT input format"
 function = "transpose_to_patch"
 ndim = 1
 global_size = "seqLength"
-local_work_size = 0
+local_work_size = 4
 
 [[kernels.args]]
 name = "input"
