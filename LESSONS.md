@@ -36,3 +36,34 @@
 
 ### Key Insight
 The Adreno 663 OpenCL compiler is extremely sensitive to code complexity. Simple scalar loops with runtime values work correctly. Any form of vectorization or compile-time constant optimization triggers compiler bugs.
+
+## exp_8–exp_10 Findings
+
+### What Does NOT Help
+- **4 sequences per work-item (exp_8)**: 4.315ms — slightly slower than exp_7. Extra loop overhead and no spatial locality benefit.
+- **2D-style dispatch (exp_9)**: 623ms — catastrophic. 4x more work-items with worse memory access patterns.
+- **Incremental row pointer (exp_10, 10b)**: 4.196-4.257ms — slightly slower. Compiler already optimizes row address computation.
+
+### Size-Dependent Performance
+- **exp_7** (reordered loops) is best for H<=448
+- **exp_3** (nested loops) is better for H>448
+- Crossover at ~H=480
+
+| H   | exp_1 (ms) | exp_3 (ms) | exp_7 (ms) | Best  |
+|-----|-----------|-----------|-----------|-------|
+| 128 | 1.282     | 0.579     | 0.483     | exp_7 |
+| 224 | 1.851     | 0.996     | 0.979     | exp_7 |
+| 320 | 2.338     | 2.263     | 2.163     | exp_7 |
+| 448 | 4.695     | 4.210     | 4.069     | exp_7 |
+| 544 | 4.785     | 3.815     | 5.920     | exp_3 |
+| 672 | 7.306     | 5.592     | 9.146     | exp_3 |
+| 800 | 9.772     | 8.493     | 16.106    | exp_3 |
+| 896 | 12.556    | 11.047    | 19.809    | exp_3 |
+
+### Adreno 663 Optimization Constraints Summary
+1. No vectorization (float4, vload3 broken)
+2. No 2+ compile-time constant divisors (#define)
+3. No complex index precomputation (ternary operators, many locals)
+4. Simple scalar loops with runtime values work best
+5. Memory bandwidth is the primary bottleneck (~13.7MB data movement)
+6. Loop order matters: (t, ph, pw, c) with c innermost best for small images

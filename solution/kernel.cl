@@ -46,19 +46,16 @@ __kernel void transpose_to_patch(
     int WC = W * C;
     int outBase = seqIdx * input_dim;
 
-    // Reordered loops: t, ph, pw, c (c innermost for input coalescing)
     for (int t = 0; t < tps; t++) {
         int tBase = (baseT + t) * HW_C;
         for (int ph = 0; ph < patch_size; ph++) {
             int rowBase = tBase + (baseH + ph) * WC + baseW * C;
             for (int pw = 0; pw < patch_size; pw++) {
                 int inAddr = rowBase + pw * C;
-                // elemIdx for (c=0, t, ph, pw): t * pp + ph * patch_size + pw
                 int elemIdx_base = t * pp + ph * patch_size + pw;
-                // c innermost: reads consecutive input addresses
-                output[outBase + elemIdx_base]         = input[inAddr];     // c=0
-                output[outBase + elemIdx_base + tpp]   = input[inAddr + 1]; // c=1
-                output[outBase + elemIdx_base + 2*tpp] = input[inAddr + 2]; // c=2
+                output[outBase + elemIdx_base]         = input[inAddr];
+                output[outBase + elemIdx_base + tpp]   = input[inAddr + 1];
+                output[outBase + elemIdx_base + 2*tpp] = input[inAddr + 2];
             }
         }
     }

@@ -12,4 +12,8 @@
 | 5 | 2026-05-27 | Manual pw unroll | 4.422 | PASS |
 | 5b | 2026-05-27 | Precomputed pw offsets | 4.426 | PASS |
 | 6 | 2026-05-27 | vload3 channel reads | - | FAIL (inf values) |
-| 7 | 2026-05-27 | Reordered loops for input coalescing | 4.068 | PASS |
+| 7 | 2026-05-27 | Reordered loops for input coalescing | 4.069 | PASS |
+| 8 | 2026-05-28 | 4 sequences per work-item | 4.315 | PASS |
+| 9 | 2026-05-28 | 2D-style dispatch | 623.157 | PASS |
+| 10 | 2026-05-28 | Incremental row pointer (t,c,ph,pw) | 4.196 | PASS |
+| 10b | 2026-05-28 | exp_7 + incremental row | 4.257 | PASS |
