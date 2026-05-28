@@ -67,3 +67,33 @@ The Adreno 663 OpenCL compiler is extremely sensitive to code complexity. Simple
 4. Simple scalar loops with runtime values work best
 5. Memory bandwidth is the primary bottleneck (~13.7MB data movement)
 6. Loop order matters: (t, ph, pw, c) with c innermost best for small images
+
+## exp_11–exp_14: Reference Kernel Breakthrough
+
+### Key Discovery: vload3 Works for float32
+- **Previous belief**: vload3 was broken on Adreno 663 (exp_6 produced inf values)
+- **Reality**: exp_6 failure was due to incorrect index mapping, NOT vload3 itself
+- **Evidence**: exp_11 uses vload3 with correct index mapping → PASS, 3.079ms (-34.4%)
+- **Reference**: /mnt/workspace/opencl_kernel uses vload3 successfully for float3 reads
+
+### What vload3 Does
+- Reads 3 consecutive floats (R, G, B) in a single load instruction
+- Reduces load instructions from 1536 to 512 per work-item (3x fewer)
+- Eliminates `input[rowBase + pw * C + c]` address computation for each channel
+
+### Block-Level Base Precomputation
+- Precompute `block_base = baseT * HW_C + baseH * WC + baseW * C` once
+- Inner loop uses `tBase = block_base + t * HW_C` (one add per temporal patch)
+- Eliminates redundant multiply-add in inner loop
+
+### What Does NOT Help (exp_12–14)
+- **Block-level dispatch (exp_12)**: 196 WIs instead of 784 — marginal at H=448, worse at H=224
+- **Incremental row pointer (exp_13)**: No benefit — compiler already optimizes
+- **Bitwise merge decode (exp_14)**: No benefit — compiler optimizes `% 2` and `/ 2`
+
+### Updated Optimization Ranking
+| Technique | Impact | Notes |
+|-----------|--------|-------|
+| vload3 for channel reads | -24.4% | 3x fewer load instructions |
+| Reordered loops (c innermost) | -13.4% | Input read coalescing |
+| Nested loops (eliminate divisions) | -10.3% | Zero inner-loop divisions |
